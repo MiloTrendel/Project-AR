@@ -4,15 +4,26 @@ using UnityEngine;
 
 public class GMShowAR : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    int chrono;
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public void CalculLastHandPos()
+    {
+
+    }
+
+    public void TrySpells(List<Spell> spells)
+    {
+
+    }
+
+    public void DrawSpell(Spell spell)
+    {
+
     }
 }
