@@ -5,7 +5,11 @@ using UnityEngine;
 public class GameStateContext
 {
     // Propreties here
-    public GameStateContext()
+
+    public Player player;
+
+    public GameStateContext(Player _player)
     {
+        player = _player;
     }
 }

@@ -24,7 +24,7 @@ public class GameStateManager : StateManager<GameStateManager.EGameStates>
 
     private void Awake()
     {
-        _context = new GameStateContext();
+        _context = new GameStateContext(new Player());
         InitializeStates();
 
         CurrentState = States[EGameStates.MainMenu];
