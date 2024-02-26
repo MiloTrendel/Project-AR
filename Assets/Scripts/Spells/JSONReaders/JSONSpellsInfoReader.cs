@@ -5,7 +5,7 @@ using UnityEngine.LowLevel;
 using Newtonsoft.Json;
 using System.Linq;
 
-public class JSONSpellReader : MonoBehaviour
+public class JSONSpellsInfoReader : MonoBehaviour
 {
     public TextAsset jsonText;
 
@@ -16,7 +16,6 @@ public class JSONSpellReader : MonoBehaviour
         public int cooldown;
         public int spellID;
         public int mana;
-        public List<Vector3> spellCastingSign;
     }
     
     [System.Serializable]

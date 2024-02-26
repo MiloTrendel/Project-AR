@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class ButtonTest : MonoBehaviour
 {
-    public JSONSpellReader spellReader;
+    public JSONSpellsInfoReader spellInfoReader;
+    public JSONSpellsPointsPosReader spellPosReader;
 
     public Spell spell1;
     public Spell spell2;
@@ -15,17 +16,11 @@ public class ButtonTest : MonoBehaviour
 
     void Start()
     {
-        Debug.Log(spellReader.spellList.spells.Count());
-        Debug.Log("Spell 1");
-        spell1 = new Spell(1, spellReader);
-        Debug.Log("Spell 2");
-        spell2 = new Spell(2, spellReader);
-        Debug.Log("Spell 3");
-        spell3 = new Spell(3, spellReader);
-        Debug.Log("Spell 4");
-        spell4 = new Spell(4, spellReader);
-        Debug.Log("Spell 5");
-        spell5 = new Spell(5, spellReader);
+        spell1 = new Spell(1, spellInfoReader, spellPosReader);
+        spell2 = new Spell(2, spellInfoReader, spellPosReader);
+        spell3 = new Spell(3, spellInfoReader, spellPosReader);
+        spell4 = new Spell(4, spellInfoReader, spellPosReader);
+        spell5 = new Spell(5, spellInfoReader, spellPosReader);
         
     }
 

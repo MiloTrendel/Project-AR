@@ -1,0 +1,34 @@
+{
+	"spells": [
+		{
+			"name": "Coucou",
+			"cooldown": 10,
+			"spellID": 1,
+			"mana" : 5
+		},
+		{
+			"name": "Spell2",
+			"cooldown": 8,
+			"spellID": 2,
+			"mana" : 3
+		},
+		{
+			"name": "Spell3",
+			"cooldown": 2,
+			"spellID": 3,
+			"mana" : 10
+		},
+		{
+			"name": "Spell4",
+			"cooldown": 5,
+			"spellID": 4,
+			"mana" : 3
+		},
+		{
+			"name": "Spell5",
+			"cooldown": 4,
+			"spellID": 5,
+			"mana" : 12
+		}
+	]
+}
