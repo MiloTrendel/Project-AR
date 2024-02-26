@@ -12,7 +12,12 @@ public class GameStateManager : StateManager<GameStateManager.EGameStates>
     {
         MainMenu,
         Map,
-        Show
+        Show,
+
+        Inventory,
+        Walk,
+        StartMenu,
+        ShowAR
     }
 
     private GameStateContext _context;
@@ -30,6 +35,11 @@ public class GameStateManager : StateManager<GameStateManager.EGameStates>
         States.Add(EGameStates.MainMenu, new GMMainMenu(_context, EGameStates.MainMenu));
         States.Add(EGameStates.Map, new GMMap(_context, EGameStates.Map));
         States.Add(EGameStates.Show, new GMShow(_context, EGameStates.Show));
+
+        States.Add(EGameStates.Inventory, new GMInventory(_context, EGameStates.Inventory));
+        States.Add(EGameStates.Walk, new GMWalk(_context, EGameStates.Walk));
+        States.Add(EGameStates.StartMenu, new GMStartMenu(_context, EGameStates.StartMenu));
+        States.Add(EGameStates.ShowAR, new GMShowAR(_context, EGameStates.ShowAR));
     }
 
     public void DebugNextStateIterate()

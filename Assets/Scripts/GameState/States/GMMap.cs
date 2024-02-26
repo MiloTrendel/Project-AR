@@ -37,6 +37,6 @@ public class GMMap : GMBaseState
     public override void DebugNextStateIterate()
     {
         Debug.Log("DEBUG functon called");
-        nextStateKey = GameStateManager.EGameStates.Show;
+        nextStateKey = GameStateManager.EGameStates.Inventory;
     }
 }
