@@ -3,24 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.LowLevel;
 using Newtonsoft.Json;
+using System.Linq;
 
 public class JSONSpellReader : MonoBehaviour
 {
     public TextAsset jsonText;
-
-    public class SpellCastingSign
-    {
-        public double x;
-        public double y;
-        public double z;
-    }
 
     [System.Serializable]
     public class JsonSpells
     {
         public string name;
         public int cooldown;
-        public List<SpellCastingSign> spellCastingSign;
+        public int spellID;
+        public int mana;
+        public List<Vector3> spellCastingSign;
     }
     
     [System.Serializable]
@@ -33,14 +29,8 @@ public class JSONSpellReader : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         spellList = JsonConvert.DeserializeObject<SpellList>(jsonText.text);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
