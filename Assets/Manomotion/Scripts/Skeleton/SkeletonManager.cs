@@ -133,6 +133,7 @@ public class SkeletonManager : MonoBehaviour
         hasConfidence = skeletonInfo.confidence > skeletonConfidenceThreshold;
         UpdateJointPositions();
         UpdateJointorientation();
+        UpdateJointPositions();
     }
 
     /// <summary>
