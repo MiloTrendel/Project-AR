@@ -257,53 +257,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 139245859}
   m_CullTransparentMesh: 1
---- !u!1 &339227477
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 339227478}
-  - component: {fileID: 339227479}
-  m_Layer: 0
-  m_Name: JSONSpellReader
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &339227478
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 339227477}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2037.553, y: 757.4459, z: -16.866577}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &339227479
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 339227477}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bdcbf99b492ca9a4ab7a9549c7a0e30f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  jsonText: {fileID: 4900000, guid: d4c9fb9dfbf503c4eb66335c8531cac1, type: 3}
-  spellList:
-    spells: []
 --- !u!1 &450393339
 GameObject:
   m_ObjectHideFlags: 0
@@ -317,7 +270,7 @@ GameObject:
   - component: {fileID: 450393342}
   - component: {fileID: 450393341}
   m_Layer: 5
-  m_Name: Button
+  m_Name: ButtonSpell1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -340,7 +293,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1052, y: -0.000011444}
+  m_AnchoredPosition: {x: -502, y: -164}
   m_SizeDelta: {x: 485.4529, y: 91.022}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &450393341
@@ -387,10 +340,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 654676718}
-        m_TargetAssemblyTypeName: ButtonTest, Assembly-CSharp
-        m_MethodName: ButtonSpell1
-        m_Mode: 1
+      - m_Target: {fileID: 469225059}
+        m_TargetAssemblyTypeName: SpellManager, Assembly-CSharp
+        m_MethodName: ButtonSpellCast
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -448,7 +401,7 @@ GameObject:
   - component: {fileID: 469225058}
   - component: {fileID: 469225059}
   m_Layer: 0
-  m_Name: Spells
+  m_Name: SpellsManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -478,57 +431,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 469225057}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bdcbf99b492ca9a4ab7a9549c7a0e30f, type: 3}
+  m_Script: {fileID: 11500000, guid: 6724c6a84dc0750428c7ce4b0441c174, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jsonText: {fileID: 4900000, guid: d4c9fb9dfbf503c4eb66335c8531cac1, type: 3}
-  spellList:
-    spells: []
---- !u!1 &654676716
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 654676717}
-  - component: {fileID: 654676718}
-  m_Layer: 0
-  m_Name: ButtonTest
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &654676717
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 654676716}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1187.621, y: 1122.4379, z: 0.15441895}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &654676718
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 654676716}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d58c3c0d403c2cd438e550f39e37be25, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spellReader: {fileID: 339227479}
+  jsonInfoText: {fileID: 4900000, guid: d4c9fb9dfbf503c4eb66335c8531cac1, type: 3}
+  jsonPosText: {fileID: 4900000, guid: c287f2fc434ea8047a834f14991b0649, type: 3}
 --- !u!1 &658163133
 GameObject:
   m_ObjectHideFlags: 0
@@ -904,7 +811,7 @@ GameObject:
   - component: {fileID: 865167746}
   - component: {fileID: 865167745}
   m_Layer: 5
-  m_Name: Button (4)
+  m_Name: ButtonSpell5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -927,7 +834,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1259.0044, y: -0.000011444}
+  m_AnchoredPosition: {x: 568, y: -159}
   m_SizeDelta: {x: 485.4529, y: 91.022}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &865167745
@@ -974,14 +881,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 654676718}
-        m_TargetAssemblyTypeName: ButtonTest, Assembly-CSharp
-        m_MethodName: ButtonSpell5
-        m_Mode: 1
+      - m_Target: {fileID: 469225059}
+        m_TargetAssemblyTypeName: SpellManager, Assembly-CSharp
+        m_MethodName: ButtonSpellCast
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 4
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -1129,7 +1036,7 @@ GameObject:
   - component: {fileID: 1130757414}
   - component: {fileID: 1130757413}
   m_Layer: 5
-  m_Name: Button (1)
+  m_Name: ButtonSpell2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1152,7 +1059,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -511.9956, y: -0.000011444}
+  m_AnchoredPosition: {x: -258, y: -0.000011444}
   m_SizeDelta: {x: 485.4529, y: 91.022}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1130757413
@@ -1199,14 +1106,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 654676718}
-        m_TargetAssemblyTypeName: ButtonTest, Assembly-CSharp
-        m_MethodName: ButtonSpell2
-        m_Mode: 1
+      - m_Target: {fileID: 469225059}
+        m_TargetAssemblyTypeName: SpellManager, Assembly-CSharp
+        m_MethodName: ButtonSpellCast
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -1425,7 +1332,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 25
+  m_AdditionalShaderChannelsFlag: 1
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -1601,7 +1508,7 @@ GameObject:
   - component: {fileID: 1963305963}
   - component: {fileID: 1963305962}
   m_Layer: 5
-  m_Name: Button (2)
+  m_Name: ButtonSpell3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1624,7 +1531,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 54.004395, y: -0.000011444}
+  m_AnchoredPosition: {x: 30, y: 173}
   m_SizeDelta: {x: 485.4529, y: 91.022}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1963305962
@@ -1671,14 +1578,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 654676718}
-        m_TargetAssemblyTypeName: ButtonTest, Assembly-CSharp
-        m_MethodName: ButtonSpell3
-        m_Mode: 1
+      - m_Target: {fileID: 469225059}
+        m_TargetAssemblyTypeName: SpellManager, Assembly-CSharp
+        m_MethodName: ButtonSpellCast
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -1734,7 +1641,7 @@ GameObject:
   - component: {fileID: 2070632569}
   - component: {fileID: 2070632568}
   m_Layer: 5
-  m_Name: Button (3)
+  m_Name: ButtonSpell4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1757,7 +1664,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 648.0044, y: -0.000011444}
+  m_AnchoredPosition: {x: 324, y: -0.000011444}
   m_SizeDelta: {x: 485.4529, y: 91.022}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2070632568
@@ -1804,14 +1711,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 654676718}
-        m_TargetAssemblyTypeName: ButtonTest, Assembly-CSharp
-        m_MethodName: ButtonSpell4
-        m_Mode: 1
+      - m_Target: {fileID: 469225059}
+        m_TargetAssemblyTypeName: SpellManager, Assembly-CSharp
+        m_MethodName: ButtonSpellCast
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 3
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -1997,6 +1904,4 @@ SceneRoots:
   - {fileID: 469225058}
   - {fileID: 1911743376}
   - {fileID: 1283474959}
-  - {fileID: 654676717}
   - {fileID: 1508676854}
-  - {fileID: 339227478}

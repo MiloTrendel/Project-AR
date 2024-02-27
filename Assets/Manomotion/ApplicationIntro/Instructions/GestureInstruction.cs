@@ -212,7 +212,7 @@ public class GestureInstruction : Instruction
             }
 
         }
-        catch (System.Exception ex)
+        catch
         {
             Debug.Log("I cant assign trigger");
         }

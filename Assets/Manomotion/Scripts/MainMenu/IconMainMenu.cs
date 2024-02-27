@@ -14,7 +14,7 @@ public class IconMainMenu : MonoBehaviour
 
     private void Start()
     {
-        currentOrientation = ScreenOrientation.Unknown;
+        currentOrientation = ScreenOrientation.AutoRotation;
     }
 
     void Update()

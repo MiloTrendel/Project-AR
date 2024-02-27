@@ -20,7 +20,7 @@ public class WatchExample : MonoBehaviour
     /// <summary>
     /// If the Manomotion depth value is greater than this the ring will show, otherwise warning will shown.
     /// </summary>
-    private float depthWarning = 0f;
+    // private float depthWarning = 0f;
 
     /// <summary>
     /// Ring parts for only display half of the ring at a time.

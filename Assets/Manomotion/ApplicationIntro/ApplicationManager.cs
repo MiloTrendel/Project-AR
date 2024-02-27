@@ -47,7 +47,7 @@ public class ApplicationManager : MonoBehaviour
             privacyPolicy = this.GetComponent<PrivacyPolicyDisclaimair>();
 
         }
-        catch (Exception ex)
+        catch
         {
             privacyPolicy = new PrivacyPolicyDisclaimair();
         }
@@ -63,7 +63,7 @@ public class ApplicationManager : MonoBehaviour
             howToInstructor = this.GetComponent<HowToInstructor>();
 
         }
-        catch (Exception ex)
+        catch
         {
             howToInstructor = new HowToInstructor();
         }
@@ -79,7 +79,7 @@ public class ApplicationManager : MonoBehaviour
         {
             runTimeApplication = this.GetComponent<RunTimeApplication>();
         }
-        catch (Exception ex)
+        catch
         {
             runTimeApplication = new RunTimeApplication();
         }
