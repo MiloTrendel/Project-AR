@@ -58,11 +58,6 @@ public class ManoEvents : MonoBehaviour
 
 	void Update()
 	{
-		if (!statusAnimator)
-		{
-			GameObject.Find("statusAnimator").GetComponent<Animator>();
-			Debug.LogError("The application needs the ManoMotion canvas in order to display status messages through the animator");
-		}
 
 		HandleManomotionMessages();
 #if UNITY_IOS
