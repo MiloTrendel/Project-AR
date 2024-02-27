@@ -1,67 +1,39 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpellManager
+public class SpellManager : MonoBehaviour
 {
-    List<Spells> spells = new List<Spells>();
+    public static JSONSpellsInfoReader SpellInfoReader = null;
+    public static JSONSpellsPointsPosReader SpellPosReader = null;
 
-    public SpellManager()
-    {
-        spells.Add(new Spell1Cast());
-        spells.Add(new Spell2Cast());
-        spells.Add(new Spell3Cast());
-        spells.Add(new Spell4Cast());
-        spells.Add(new Spell5Cast());
-    }
-    public abstract class Spells
-    {
-        public abstract void Do(Spell spell);
-    }
+    [SerializeField] public TextAsset jsonInfoText;
+    [SerializeField] public TextAsset jsonPosText;
 
-    public void CastSpell(int spellID, Spell spell)
-    {
-        spells[spellID - 1].Do(spell);
-    }
+    List<Spell> Spells = new();
 
-    private class Spell1Cast : Spells
+    private void Awake()
     {
-        public override void Do(Spell spell)
-        {
-            Debug.Log("Cast " + spell.name);
-        }
+        if (SpellInfoReader == null)
+            SpellInfoReader = new(jsonInfoText);
+
+        if (SpellPosReader == null)
+            SpellPosReader = new(jsonPosText);
+
+        SpellInfoReader.SetupSpells();
+        SpellPosReader.SetupSpells();
     }
 
-    private class Spell2Cast : Spells
+    void Start()
     {
-        public override void Do(Spell spell)
-        {
-            Debug.Log("Cast " + spell.name);
-        }
+        Spells.Add(new Spell0Cast());
+        Spells.Add(new Spell1Cast());
+        Spells.Add(new Spell2Cast());
+        Spells.Add(new Spell3Cast());
+        Spells.Add(new Spell4Cast());
     }
 
-    private class Spell3Cast : Spells
+    public void ButtonSpellCast(int spellId)
     {
-        public override void Do(Spell spell)
-        {
-            Debug.Log("Cast " + spell.name);
-        }
-
-    }
-
-    private class Spell4Cast : Spells
-    {
-        public override void Do(Spell spell)
-        {
-            Debug.Log("Cast " + spell.name);
-        }
-    }
-
-    private class Spell5Cast : Spells
-    {
-        public override void Do(Spell spell)
-        {
-            Debug.Log("Cast " + spell.name);
-        }
+        Spells[spellId].Cast();
     }
 }

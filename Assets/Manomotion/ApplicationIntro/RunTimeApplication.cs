@@ -60,7 +60,7 @@ namespace ManoMotion.RunTime
                 {
                     manoVisualization = GameObject.Find("ManoVisualization").GetComponent<ManoVisualization>();
                 }
-                catch (Exception ex)
+                catch
                 {
                     Debug.LogError("Cannot find the ManoVisualization");
                 }
@@ -72,7 +72,7 @@ namespace ManoMotion.RunTime
                 {
                     gizmoManager = GameObject.Find("GizmoCanvas").GetComponent<GizmoManager>();
                 }
-                catch (Exception ex)
+                catch
                 {
                     Debug.LogError("Cannot find the GizmoManager");
                 }
@@ -84,7 +84,7 @@ namespace ManoMotion.RunTime
                 {
                     manoMotionCanvas = GameObject.Find("ManoMotionCanvas");
                 }
-                catch (Exception ex)
+                catch
                 {
                     Debug.Log("Cannot find the ManoMotion Canvas");
                 }
@@ -96,7 +96,7 @@ namespace ManoMotion.RunTime
                 {
                     menuToggleButtonObject = GameObject.Find("ToggleMenu");
                 }
-                catch (Exception ex)
+                catch
                 {
                     Debug.Log("Cannot find the Menu Toggle Button");
                 }
@@ -108,7 +108,7 @@ namespace ManoMotion.RunTime
                 {
                     featuresMenu = GameObject.Find("MainFeaturesMenu");
                 }
-                catch (Exception ex)
+                catch
                 {
                     Debug.Log("Cannot find the Main Features Object");
                 }
@@ -120,7 +120,7 @@ namespace ManoMotion.RunTime
                 {
                     manomotionManager = GameObject.Find("ManomotionManager").GetComponent<ManomotionManager>();
                 }
-                catch (Exception ex)
+                catch
                 {
                     Debug.Log("Cannot find the ManoMotionManager");
                 }

@@ -1,29 +1,100 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
-public class Spell
+public abstract class Spell
 {
-    SpellManager spellManager = new SpellManager();
+    public string Name { get; private set; }
+    public int Cooldown { get; private set; }
+    public int SpellID { get; private set; }
+    public int Mana { get; private set; }
+    public List<Vector3> SpellCastingSign { get; private set; }
 
-    public string name;
-    public int cooldown;
-    public int spellID;
-    public int mana;
-    public List<Vector3> spellCastingSign;
-
-    public Spell(int id, JSONSpellsInfoReader spellInfoReader, JSONSpellsPointsPosReader spellPosReader)
+    protected void SetupSpellWithID(int jsonID = 0)
     {
-        name = spellInfoReader.spellList.spells[id - 1].name;
-        cooldown = spellInfoReader.spellList.spells[id - 1].cooldown;
-        spellID = spellInfoReader.spellList.spells[id - 1].spellID;
-        mana = spellInfoReader.spellList.spells[id - 1].mana;
-        spellCastingSign = spellPosReader.spellPosList.spells[id - 1].spellCastingSign;
+        JSONSpellsInfoReader.JsonSpell jsonSpell = SpellManager.SpellInfoReader.SpellsInfo[jsonID];
+        Name = jsonSpell.Name;
+        Cooldown = jsonSpell.Cooldown;
+        SpellID = jsonSpell.SpellID;
+        Mana = jsonSpell.Mana;
+        SpellCastingSign = SpellManager.SpellPosReader.SpeelsPos[jsonID].spellCastingSign;
     }
 
-    public void CastSpell()
+    public virtual void Cast()
     {
-        spellManager.CastSpell(spellID, this);
+        UnityEngine.Debug.Log("Cast " + SpellID);
     }
 }
+
+
+
+
+// Specific Spells
+//
+
+#region Specific Spells
+public class Spell0Cast : Spell
+{
+    public Spell0Cast()
+    {
+        base.SetupSpellWithID(0);
+    }
+
+    public override void Cast()
+    {
+        base.Cast();
+    }
+}
+
+public class Spell1Cast : Spell
+{
+    public Spell1Cast()
+    {
+        base.SetupSpellWithID(1);
+    }
+
+    public override void Cast()
+    {
+        base.Cast();
+    }
+}
+
+public class Spell2Cast : Spell
+{
+    public Spell2Cast()
+    {
+        base.SetupSpellWithID(2);
+    }
+
+    public override void Cast()
+    {
+        base.Cast();
+    }
+}
+
+public class Spell3Cast : Spell
+{
+    public Spell3Cast()
+    {
+        base.SetupSpellWithID(3);
+    }
+
+    public override void Cast()
+    {
+        base.Cast();
+    }
+
+}
+
+public class Spell4Cast : Spell
+{
+    public Spell4Cast()
+    {
+        base.SetupSpellWithID(4);
+    }
+
+    public override void Cast()
+    {
+        base.Cast();
+    }
+}
+#endregion
