@@ -25,11 +25,11 @@ public class SpellManager : MonoBehaviour
 
     void Start()
     {
-        Spells.Add(new Spell1Cast(1));
-        Spells.Add(new Spell2Cast(2));
-        Spells.Add(new Spell3Cast(3));
-        Spells.Add(new Spell4Cast(4));
-        Spells.Add(new Spell5Cast(5));
+        Spells.Add(new Spell0Cast());
+        Spells.Add(new Spell1Cast());
+        Spells.Add(new Spell2Cast());
+        Spells.Add(new Spell3Cast());
+        Spells.Add(new Spell4Cast());
     }
 
     public void ButtonSpellCast(int spellId)
