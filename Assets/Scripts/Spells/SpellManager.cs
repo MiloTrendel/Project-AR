@@ -3,6 +3,13 @@ using UnityEngine;
 
 public class SpellManager : MonoBehaviour
 {
+    #region Singleton
+    /// <summary>
+    /// Creates instance of SpellManager
+    /// </summary>
+    public static SpellManager instance;
+    #endregion
+
     public static JSONSpellsInfoReader SpellInfoReader = null;
     public static JSONSpellsPointsPosReader SpellPosReader = null;
 
@@ -13,6 +20,17 @@ public class SpellManager : MonoBehaviour
 
     private void Awake()
     {
+        // Singleton
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            this.gameObject.SetActive(false);
+            Debug.LogError("More than 1 SpellManager in scene");
+        }
+
         if (SpellInfoReader == null)
             SpellInfoReader = new(jsonInfoText);
 

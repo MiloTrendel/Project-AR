@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.VirtualTexturing;
 
-public class GMWalk : GMBaseState
+public class GMWalk : GMMap
 {
     public GMWalk(GameStateContext context, GameStateManager.EGameStates key) : base(context, key)
     {

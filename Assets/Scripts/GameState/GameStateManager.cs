@@ -6,6 +6,14 @@ using UnityEngine;
 
 public class GameStateManager : StateManager<GameStateManager.EGameStates>
 {
+    #region Singleton
+    /// <summary>
+    /// Creates instance of GameStateManager
+    /// </summary>
+    public static GameStateManager instance;
+
+    #endregion
+
     private static bool isDebugging = false;
 
     public enum EGameStates
@@ -24,9 +32,19 @@ public class GameStateManager : StateManager<GameStateManager.EGameStates>
 
     private void Awake()
     {
-        _context = new GameStateContext(new Player());
-        InitializeStates();
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            this.enabled = false;
+            Debug.LogError("More than 1 GameStateManager in scene");
+        }
 
+        _context = new GameStateContext(new Player());
+
+        InitializeStates();
         CurrentState = States[EGameStates.MainMenu];
     }
 

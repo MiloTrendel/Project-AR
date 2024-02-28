@@ -221,6 +221,8 @@ public class SkeletonManager : MonoBehaviour
 
                 _listOfJoints[i].transform.position = newPosition3d;
             }
+
+            DetectHandPosition();
         }
 
         else
@@ -235,5 +237,14 @@ public class SkeletonManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void DetectHandPosition()
+    {
+        float pickDistance = Vector3.Distance(skeletonInfo.joints[4], skeletonInfo.joints[8]);
+        Debug.Log(pickDistance.ToString());
+
+        if (pickDistance < 0.07)
+            Debug.Log("Picked");
     }
 }

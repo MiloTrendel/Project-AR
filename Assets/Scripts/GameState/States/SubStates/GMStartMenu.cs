@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.VirtualTexturing;
 
-public class GMStartMenu : GMBaseState
+public class GMStartMenu : GMShow
 {
     public GMStartMenu(GameStateContext context, GameStateManager.EGameStates key) : base(context, key)
     {

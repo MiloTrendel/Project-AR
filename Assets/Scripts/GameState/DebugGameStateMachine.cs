@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class DebugGameStateMachine : MonoBehaviour
 {
@@ -11,6 +10,8 @@ public class DebugGameStateMachine : MonoBehaviour
     [SerializeField]
     private KeyCode toggleDebugKeyCode;
 
+    [SerializeField]
+    private TMP_Text debugText;
     void Update()
     {
         if (Input.GetKeyDown(debugNextStateKeyCode))
@@ -18,5 +19,8 @@ public class DebugGameStateMachine : MonoBehaviour
 
         if (Input.GetKeyDown(toggleDebugKeyCode))
             StateManager.ToggleDebug();
+
+        if (debugText != null)
+            debugText.text = StateManager.CurrentState.ToString();
     }
 }

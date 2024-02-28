@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.VirtualTexturing;
 
-public class GMShowAR : GMBaseState
+public class GMShowAR : GMShow
 {
     private List<Vector3> Joints;
 
