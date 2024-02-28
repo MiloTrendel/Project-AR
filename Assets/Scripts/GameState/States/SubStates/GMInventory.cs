@@ -23,19 +23,19 @@ public class GMInventory : GMBaseState
 
     public override GameStateManager.EGameStates GetNextState()
     {
-        return nextStateKey;
+        return NextStateKey;
     }
 
     public override void ExitState()
     {
         if (isDebugging)
             Debug.Log("Exit Inventory");
-        nextStateKey = StateKey;
+        NextStateKey = StateKey;
     }
 
     public override void DebugNextStateIterate()
     {
         Debug.Log("DEBUG functon called");
-        nextStateKey = GameStateManager.EGameStates.Walk;
+        NextStateKey = GameStateManager.EGameStates.Walk;
     }
 }

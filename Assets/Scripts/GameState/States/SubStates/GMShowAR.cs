@@ -26,20 +26,20 @@ public class GMShowAR : GMBaseState
 
     public override GameStateManager.EGameStates GetNextState()
     {
-        return nextStateKey;
+        return NextStateKey;
     }
 
     public override void ExitState()
     {
         if (isDebugging)
             Debug.Log("Exit ShowAR");
-        nextStateKey = StateKey;
+        NextStateKey = StateKey;
     }
 
     public override void DebugNextStateIterate()
     {
         Debug.Log("DEBUG functon called");
-        nextStateKey = GameStateManager.EGameStates.MainMenu;
+        NextStateKey = GameStateManager.EGameStates.MainMenu;
     }
 
     public List<Vector3> GetLastHandPos(bool jointouorientation, SkeletonInfo skeletonInfo)

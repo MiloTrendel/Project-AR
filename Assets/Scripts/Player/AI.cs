@@ -4,4 +4,8 @@ using UnityEngine;
 
 public class AI : GenericPlayer
 {
+    // TODO (automatic choice / timers ?)
+    public AI(GameStateContext context) : base(context)
+    {
+    }
 }

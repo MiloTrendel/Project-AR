@@ -22,19 +22,19 @@ public class GMMainMenu : GMBaseState
 
     public override GameStateManager.EGameStates GetNextState()
     {
-        return nextStateKey;
+        return NextStateKey;
     }
 
     public override void ExitState()
     {
         if (isDebugging)
             Debug.Log("Exit MainMenu");
-        nextStateKey = StateKey;
+        NextStateKey = StateKey;
     }
 
     public override void DebugNextStateIterate()
     {
         Debug.Log("DEBUG functon called");
-        nextStateKey = GameStateManager.EGameStates.Map;
+        NextStateKey = GameStateManager.EGameStates.Map;
     }
 }

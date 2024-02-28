@@ -30,22 +30,22 @@ public abstract class StateManager<EState> : MonoBehaviour where EState : Enum
 
     protected bool IsTransitioningState = false;
 
-    private void Start()
+    public virtual void Start()
     {
         CurrentState.EnterState();
     }
 
-    private void Update()
+    public virtual void Update()
     {
-        EState nextStateKey = CurrentState.GetNextState();
+        EState NextStateKey = CurrentState.GetNextState();
 
-        if (!IsTransitioningState && nextStateKey.Equals(CurrentState.StateKey))
+        if (!IsTransitioningState && NextStateKey.Equals(CurrentState.StateKey))
         {
             CurrentState.UpdateState();
         }
         else if (!IsTransitioningState)
         {
-            TransitionToState(nextStateKey);
+            TransitionToState(NextStateKey);
         }
     }
 
@@ -64,11 +64,11 @@ public abstract class StateManager<EState> : MonoBehaviour where EState : Enum
         CurrentState.OnTriggerExit(other);
     }
 
-    private void TransitionToState(EState nextStateKey)
+    private void TransitionToState(EState NextStateKey)
     {
         IsTransitioningState = true;
         CurrentState.ExitState();
-        CurrentState = States[nextStateKey];
+        CurrentState = States[NextStateKey];
         CurrentState.EnterState();
         IsTransitioningState = false;
     }

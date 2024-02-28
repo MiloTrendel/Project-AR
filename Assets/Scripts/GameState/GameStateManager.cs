@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 public class GameStateManager : StateManager<GameStateManager.EGameStates>
 {
@@ -20,11 +22,21 @@ public class GameStateManager : StateManager<GameStateManager.EGameStates>
         ShowAR
     }
 
-    private GameStateContext _context;
+    public GameStateContext Context { get; private set; } = null;
+    private GenericPlayer Player1, Player2 = null;
 
     private void Awake()
     {
-        _context = new GameStateContext(new Player());
+        if (Context == null)
+            Context = new GameStateContext();
+
+        if (Player1 == null)
+            Player1 = new Player(Context);
+        if (Player2 == null)
+            Player2 = new AI(Context);
+
+        Context.Player1 = Player1;
+        Context.Player2 = Player2;
         InitializeStates();
 
         CurrentState = States[EGameStates.MainMenu];
@@ -32,15 +44,32 @@ public class GameStateManager : StateManager<GameStateManager.EGameStates>
 
     private void InitializeStates()
     {
-        States.Add(EGameStates.MainMenu, new GMMainMenu(_context, EGameStates.MainMenu));
-        States.Add(EGameStates.Map, new GMMap(_context, EGameStates.Map));
-        States.Add(EGameStates.Show, new GMShow(_context, EGameStates.Show));
+        States.Add(EGameStates.MainMenu, new GMMainMenu(Context, EGameStates.MainMenu));
+        States.Add(EGameStates.Map, new GMMap(Context, EGameStates.Map));
+        States.Add(EGameStates.Show, new GMShow(Context, EGameStates.Show));
 
-        States.Add(EGameStates.Inventory, new GMInventory(_context, EGameStates.Inventory));
-        States.Add(EGameStates.Walk, new GMWalk(_context, EGameStates.Walk));
-        States.Add(EGameStates.StartMenu, new GMStartMenu(_context, EGameStates.StartMenu));
-        States.Add(EGameStates.ShowAR, new GMShowAR(_context, EGameStates.ShowAR));
+        States.Add(EGameStates.Inventory, new GMInventory(Context, EGameStates.Inventory));
+        States.Add(EGameStates.Walk, new GMWalk(Context, EGameStates.Walk));
+        States.Add(EGameStates.StartMenu, new GMStartMenu(Context, EGameStates.StartMenu));
+        States.Add(EGameStates.ShowAR, new GMShowAR(Context, EGameStates.ShowAR));
     }
+
+    public override void Update()
+    {
+        base.Update();
+
+        if (Input.GetKeyDown(KeyCode.A))
+            Player1.SetState(GenericPlayer.EGenericPlayerStates.Attack);
+        if (Input.GetKeyDown(KeyCode.Z))
+            Player1.SetState(GenericPlayer.EGenericPlayerStates.Defend);
+        if (Input.GetKeyDown(KeyCode.E))
+            Player1.SetState(GenericPlayer.EGenericPlayerStates.Dance);
+        if (Input.GetKeyDown(KeyCode.R))
+            Player1.SetState(GenericPlayer.EGenericPlayerStates.Idle);
+
+        Debug.Log("State " + Player1.GetState().ToString());
+    }
+
 
     public void DebugNextStateIterate()
     {
@@ -68,12 +97,12 @@ public abstract class GMBaseState : BaseState<GameStateManager.EGameStates>
 {
     public static bool isDebugging = false;
     public GameStateContext Context { get; private set; }
-    public GameStateManager.EGameStates nextStateKey { get; protected set; }
+    public GameStateManager.EGameStates NextStateKey { get; protected set; }
 
     public GMBaseState(GameStateContext context, GameStateManager.EGameStates key) : base(key)
     {
         Context = context;
-        nextStateKey = key;
+        NextStateKey = key;
     }
     public abstract void DebugNextStateIterate();
 }

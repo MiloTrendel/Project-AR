@@ -24,19 +24,19 @@ public class GMMap : GMBaseState
 
     public override GameStateManager.EGameStates GetNextState()
     {
-        return nextStateKey;
+        return NextStateKey;
     }
 
     public override void ExitState()
     {
         if (isDebugging)
             Debug.Log("Exit map");
-        nextStateKey = StateKey;
+        NextStateKey = StateKey;
     }
 
     public override void DebugNextStateIterate()
     {
         Debug.Log("DEBUG functon called");
-        nextStateKey = GameStateManager.EGameStates.Inventory;
+        NextStateKey = GameStateManager.EGameStates.Inventory;
     }
 }
