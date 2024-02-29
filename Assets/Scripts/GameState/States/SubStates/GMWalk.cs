@@ -5,9 +5,8 @@ using UnityEngine.Rendering.VirtualTexturing;
 
 public class GMWalk : GMBaseState
 {
-    public GMWalk(GameStateContext context, GameStateManager.EGameStates key) : base(context, key)
+    public GMWalk(GameStateManager.EGameStates key) : base(key)
     {
-        GameStateContext Context = context;
     }
 
     public override void EnterState()
@@ -36,7 +35,7 @@ public class GMWalk : GMBaseState
 
     public override void DebugNextStateIterate()
     {
-        Debug.Log("DEBUG functon called");
+        Debug.Log("DEBUG function called");
         NextStateKey = GameStateManager.EGameStates.Show;
     }
 }

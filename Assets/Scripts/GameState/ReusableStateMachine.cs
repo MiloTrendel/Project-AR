@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -35,7 +34,7 @@ public abstract class StateManager<EState> : MonoBehaviour where EState : Enum
         CurrentState.EnterState();
     }
 
-    public virtual void Update()
+    public virtual void UpdateTick()
     {
         EState NextStateKey = CurrentState.GetNextState();
 

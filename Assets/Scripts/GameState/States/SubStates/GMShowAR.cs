@@ -7,9 +7,8 @@ public class GMShowAR : GMBaseState
 {
     private List<Vector3> Joints;
 
-    public GMShowAR(GameStateContext context, GameStateManager.EGameStates key) : base(context, key)
+    public GMShowAR(GameStateManager.EGameStates key) : base(key)
     {
-        GameStateContext Context = context;
     }
 
     public override void EnterState()

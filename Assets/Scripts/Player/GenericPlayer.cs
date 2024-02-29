@@ -4,14 +4,15 @@ using UnityEngine;
 
 public abstract class GenericPlayer
 {
-    private GameStateContext _context;
-
     public List<Spell> Spells { get; protected set; } = new();
     public int Level { get; protected set; } = 0;
     public int Score { get; protected set; } = 0;
 
     public float Fame { get; protected set; } = 0.0f;
     public float Mana { get; protected set; } = 0.0f;
+
+    protected float FameDelta = 0.1f;
+    protected float ManaDelta = 0.1f;
     
     public GenericPlayer Enemy;
 
@@ -26,27 +27,30 @@ public abstract class GenericPlayer
         Idle
     }
 
-    protected GenericPlayer(GameStateContext context)
+    protected GenericPlayer()
     {
-        _context = context;
-
         InitializeStates();
 
         CurrentState = States[EGenericPlayerStates.Idle];
     }
     private void InitializeStates()
     {
-        States = new();
-        States.Add(EGenericPlayerStates.Attack, new Attack(_context, this, EGenericPlayerStates.Attack));
-        States.Add(EGenericPlayerStates.Defend, new Defend(_context, this, EGenericPlayerStates.Defend));
-        States.Add(EGenericPlayerStates.Dance, new Dance(_context, this, EGenericPlayerStates.Dance));
-        States.Add(EGenericPlayerStates.Idle, new Idle(_context, this, EGenericPlayerStates.Idle));
+        States = new()
+        {
+            { EGenericPlayerStates.Attack, new Attack(this, EGenericPlayerStates.Attack) },
+            { EGenericPlayerStates.Defend, new Defend(this, EGenericPlayerStates.Defend) },
+            { EGenericPlayerStates.Dance, new Dance(this, EGenericPlayerStates.Dance) },
+            { EGenericPlayerStates.Idle, new Idle(this, EGenericPlayerStates.Idle) }
+        };
     }
 
     public void UpdateGenericPlayer()
     {
         if (Enemy == null)
+        {
+            Debug.LogWarning("no enemy.");
             return;
+        }
 
         CurrentState.Update();
         ClampStats();
@@ -75,6 +79,7 @@ public abstract class GenericPlayer
     private void ManaOverload()
     {
         // TODO
+        Mana = 100.0f;
     }
 
     public void SetState(EGenericPlayerStates key)
@@ -90,12 +95,10 @@ public abstract class GenericPlayer
     #region FightState
     protected abstract class GenericPlayerState
     {
-        protected GenericPlayerState(GameStateContext context, GenericPlayer currentPlayer, EGenericPlayerStates key)
+        protected GenericPlayerState(GenericPlayer currentPlayer, EGenericPlayerStates key)
         {
             CurrentPlayer = currentPlayer;
-            CurrentPlayer._context = context;
-            this.Key = key;
-            CurrentPlayer.Enemy = CurrentPlayer._context.GetEnemy(CurrentPlayer);
+            Key = key;
         }
 
         public EGenericPlayerStates Key;
@@ -108,48 +111,48 @@ public abstract class GenericPlayer
 
     protected class Dance : GenericPlayerState
     {
-        public Dance(GameStateContext context, GenericPlayer currentPlayer, EGenericPlayerStates key) : base(context, currentPlayer, key)
+        public Dance(GenericPlayer currentPlayer, EGenericPlayerStates key) : base(currentPlayer, key)
         {
         }
 
         public override void Update()
         {
-            CurrentPlayer.Fame += 2.0f;
-            CurrentPlayer.Mana += 2.0f;
+            CurrentPlayer.Fame += CurrentPlayer.FameDelta;
+            CurrentPlayer.Mana += CurrentPlayer.ManaDelta;
         }
     }
 
     protected class Defend : GenericPlayerState
     {
-        public Defend(GameStateContext context, GenericPlayer currentPlayer, EGenericPlayerStates key) : base(context, currentPlayer, key)
+        public Defend(GenericPlayer currentPlayer, EGenericPlayerStates key) : base(currentPlayer, key)
         {
         }
 
         public override void Update()
         {
-            CurrentPlayer.Mana += 4.0f;
+            CurrentPlayer.Mana += CurrentPlayer.ManaDelta * 2;
             if (CurrentPlayer.Enemy != null)
-                CurrentPlayer.Enemy.Fame -= 2.0f;
+                CurrentPlayer.Fame -= CurrentPlayer.FameDelta;
         }
     }
 
     protected class Attack : GenericPlayerState
     {
-        public Attack(GameStateContext context, GenericPlayer currentPlayer, EGenericPlayerStates key) : base(context, currentPlayer, key)
+        public Attack(GenericPlayer currentPlayer, EGenericPlayerStates key) : base(currentPlayer, key)
         {
         }
 
         public override void Update()
         {
-            CurrentPlayer.Fame += 2.0f;
+            CurrentPlayer.Fame += CurrentPlayer.FameDelta;
             if (CurrentPlayer.Enemy != null)
-                CurrentPlayer.Enemy.Mana -= 2.0f;
+                CurrentPlayer.Mana -= CurrentPlayer.ManaDelta;
         }
     }
 
     protected class Idle : GenericPlayerState
     {
-        public Idle(GameStateContext context, GenericPlayer currentPlayer, EGenericPlayerStates key) : base(context, currentPlayer, key)
+        public Idle(GenericPlayer currentPlayer, EGenericPlayerStates key) : base(currentPlayer, key)
         {
         }
 

@@ -5,9 +5,8 @@ using UnityEngine.Rendering.VirtualTexturing;
 
 public class GMMainMenu : GMBaseState
 {
-    public GMMainMenu(GameStateContext context, GameStateManager.EGameStates key) : base(context, key)
+    public GMMainMenu(GameStateManager.EGameStates key) : base(key)
     {
-        GameStateContext Context = context;
     }
     public override void EnterState()
     {
@@ -34,7 +33,7 @@ public class GMMainMenu : GMBaseState
 
     public override void DebugNextStateIterate()
     {
-        Debug.Log("DEBUG functon called");
+        Debug.Log("DEBUG function called");
         NextStateKey = GameStateManager.EGameStates.Map;
     }
 }

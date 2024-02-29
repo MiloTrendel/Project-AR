@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class GMInventory : GMBaseState
 {
-    public GMInventory(GameStateContext context, GameStateManager.EGameStates key) : base(context, key)
+    public GMInventory(GameStateManager.EGameStates key) : base(key)
     {
-        GameStateContext Context = context;
     }
 
     public override void EnterState()
@@ -35,7 +34,7 @@ public class GMInventory : GMBaseState
 
     public override void DebugNextStateIterate()
     {
-        Debug.Log("DEBUG functon called");
+        Debug.Log("DEBUG function called");
         NextStateKey = GameStateManager.EGameStates.Walk;
     }
 }

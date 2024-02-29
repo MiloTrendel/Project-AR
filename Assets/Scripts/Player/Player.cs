@@ -6,7 +6,7 @@ using static UnityEditor.Timeline.TimelinePlaybackControls;
 public class Player : GenericPlayer
 {
     // TODO (inputs)
-    public Player(GameStateContext context) : base(context)
+    public Player() : base()
     {
     }
 }

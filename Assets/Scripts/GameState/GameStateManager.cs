@@ -1,10 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Security.Cryptography;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 
 public class GameStateManager : StateManager<GameStateManager.EGameStates>
 {
@@ -22,21 +16,17 @@ public class GameStateManager : StateManager<GameStateManager.EGameStates>
         ShowAR
     }
 
-    public GameStateContext Context { get; private set; } = null;
-    private GenericPlayer Player1, Player2 = null;
 
     private void Awake()
     {
-        if (Context == null)
-            Context = new GameStateContext();
+        if (GameStateContext.Player1 == null)
+            GameStateContext.Player1 = new Player();
+        if (GameStateContext.Player2 == null)
+            GameStateContext.Player2 = new AI();
 
-        if (Player1 == null)
-            Player1 = new Player(Context);
-        if (Player2 == null)
-            Player2 = new AI(Context);
+        GameStateContext.Player1.Enemy = GameStateContext.Player2;
+        GameStateContext.Player2.Enemy = GameStateContext.Player1;
 
-        Context.Player1 = Player1;
-        Context.Player2 = Player2;
         InitializeStates();
 
         CurrentState = States[EGameStates.MainMenu];
@@ -44,34 +34,49 @@ public class GameStateManager : StateManager<GameStateManager.EGameStates>
 
     private void InitializeStates()
     {
-        States.Add(EGameStates.MainMenu, new GMMainMenu(Context, EGameStates.MainMenu));
-        States.Add(EGameStates.Map, new GMMap(Context, EGameStates.Map));
-        States.Add(EGameStates.Show, new GMShow(Context, EGameStates.Show));
-
-        States.Add(EGameStates.Inventory, new GMInventory(Context, EGameStates.Inventory));
-        States.Add(EGameStates.Walk, new GMWalk(Context, EGameStates.Walk));
-        States.Add(EGameStates.StartMenu, new GMStartMenu(Context, EGameStates.StartMenu));
-        States.Add(EGameStates.ShowAR, new GMShowAR(Context, EGameStates.ShowAR));
+        States = new()
+        {
+            { EGameStates.MainMenu, new GMMainMenu(EGameStates.MainMenu) },
+            { EGameStates.Map, new GMMap(EGameStates.Map) },
+            { EGameStates.Show, new GMShow(EGameStates.Show) },
+            { EGameStates.Inventory, new GMInventory(EGameStates.Inventory) },
+            { EGameStates.Walk, new GMWalk(EGameStates.Walk) },
+            { EGameStates.StartMenu, new GMStartMenu(EGameStates.StartMenu) },
+            { EGameStates.ShowAR, new GMShowAR(EGameStates.ShowAR) }
+        };
     }
 
-    public override void Update()
+    public void FixedUpdate()
     {
-        base.Update();
-
-        if (Input.GetKeyDown(KeyCode.A))
-            Player1.SetState(GenericPlayer.EGenericPlayerStates.Attack);
-        if (Input.GetKeyDown(KeyCode.Z))
-            Player1.SetState(GenericPlayer.EGenericPlayerStates.Defend);
-        if (Input.GetKeyDown(KeyCode.E))
-            Player1.SetState(GenericPlayer.EGenericPlayerStates.Dance);
-        if (Input.GetKeyDown(KeyCode.R))
-            Player1.SetState(GenericPlayer.EGenericPlayerStates.Idle);
-
-        Debug.Log("State " + Player1.GetState().ToString());
+        UpdateTick();
     }
 
+    public void Update()
+    {
+    }
 
-    public void DebugNextStateIterate()
+    public void CheckDebugNextFightStateIterate()
+    {
+        if (Input.GetKeyDown(KeyCode.A))
+            GameStateContext.Player1.SetState(GenericPlayer.EGenericPlayerStates.Attack);
+        if (Input.GetKeyDown(KeyCode.Z))
+            GameStateContext.Player1.SetState(GenericPlayer.EGenericPlayerStates.Defend);
+        if (Input.GetKeyDown(KeyCode.E))
+            GameStateContext.Player1.SetState(GenericPlayer.EGenericPlayerStates.Dance);
+        if (Input.GetKeyDown(KeyCode.R))
+            GameStateContext.Player1.SetState(GenericPlayer.EGenericPlayerStates.Idle);
+
+        if (Input.GetKeyDown(KeyCode.Q))
+            GameStateContext.Player2.SetState(GenericPlayer.EGenericPlayerStates.Attack);
+        if (Input.GetKeyDown(KeyCode.S))
+            GameStateContext.Player2.SetState(GenericPlayer.EGenericPlayerStates.Defend);
+        if (Input.GetKeyDown(KeyCode.D))
+            GameStateContext.Player2.SetState(GenericPlayer.EGenericPlayerStates.Dance);
+        if (Input.GetKeyDown(KeyCode.F))
+            GameStateContext.Player2.SetState(GenericPlayer.EGenericPlayerStates.Idle);
+    }
+
+    public void DebugNextGameStateIterate()
     {
         ((GMBaseState)CurrentState).DebugNextStateIterate();
     }
@@ -96,12 +101,10 @@ public class GameStateManager : StateManager<GameStateManager.EGameStates>
 public abstract class GMBaseState : BaseState<GameStateManager.EGameStates>
 {
     public static bool isDebugging = false;
-    public GameStateContext Context { get; private set; }
     public GameStateManager.EGameStates NextStateKey { get; protected set; }
 
-    public GMBaseState(GameStateContext context, GameStateManager.EGameStates key) : base(key)
+    public GMBaseState(GameStateManager.EGameStates key) : base(key)
     {
-        Context = context;
         NextStateKey = key;
     }
     public abstract void DebugNextStateIterate();
