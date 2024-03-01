@@ -5415,6 +5415,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4508671963522723386, guid: 0bc498e6549ec4b4a945bf655f246318, type: 3}
+      propertyPath: DebugPicked
+      value: 
+      objectReference: {fileID: 1911743372}
+    - target: {fileID: 4508671963522723386, guid: 0bc498e6549ec4b4a945bf655f246318, type: 3}
       propertyPath: inputManager
       value: 
       objectReference: {fileID: 1912686741}
@@ -12909,7 +12913,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1911743373
 MonoBehaviour:
   m_ObjectHideFlags: 0

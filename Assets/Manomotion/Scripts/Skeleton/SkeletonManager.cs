@@ -239,12 +239,22 @@ public class SkeletonManager : MonoBehaviour
         }
     }
 
+    [SerializeField] private GameObject DebugPicked;
     private void DetectHandPosition()
     {
         float pickDistance = Vector3.Distance(skeletonInfo.joints[4], skeletonInfo.joints[8]);
         Debug.Log(pickDistance.ToString());
 
         if (pickDistance < 0.07)
+        {
+            if (DebugPicked != null)
+                DebugPicked.SetActive(true);
             Debug.Log("Picked");
+        }
+        else
+        {
+            if (DebugPicked != null)
+                DebugPicked.SetActive(false);
+        }
     }
 }
