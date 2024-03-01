@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class GMShow : GMBaseState
 {
-    public GMShow(GameStateContext context, GameStateManager.EGameStates key) : base(context, key)
+    public GMShow(GameStateManager.EGameStates key) : base(key)
     {
-        GameStateContext Context = context;
     }
 
     public override void EnterState()
@@ -19,23 +18,25 @@ public class GMShow : GMBaseState
     {
         if (isDebugging)
             Debug.Log("Update Show");
+        GameStateContext.Player1.UpdateGenericPlayer();
+        GameStateContext.Player2.UpdateGenericPlayer();
     }
     
     public override GameStateManager.EGameStates GetNextState()
     {
-        return nextStateKey;
+        return NextStateKey;
     }
 
     public override void ExitState()
     {
         if (isDebugging)
             Debug.Log("Exit Show");
-        nextStateKey = StateKey;
+        NextStateKey = StateKey;
     }
 
     public override void DebugNextStateIterate()
     {
-        Debug.Log("DEBUG functon called");
-        nextStateKey = GameStateManager.EGameStates.MainMenu;
+        Debug.Log("DEBUG function called");
+        NextStateKey = GameStateManager.EGameStates.MainMenu;
     }
 }
