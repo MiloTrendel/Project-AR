@@ -133,7 +133,9 @@ public class SkeletonManager : MonoBehaviour
         hasConfidence = skeletonInfo.confidence > skeletonConfidenceThreshold;
         UpdateJointPositions();
         UpdateJointorientation();
-        UpdateJointPositions();
+        LastHandPos test = new LastHandPos();
+        List<Vector3> handPos = test.UpdateJointPositions(true, skeletonInfo);
+        test.TrySpells(test.perfectHand, handPos);
     }
 
     /// <summary>

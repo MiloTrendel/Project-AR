@@ -6,7 +6,7 @@ public class LastHandPos : MonoBehaviour
 {
 
     private List<Vector3> Joints;
-    private List<Vector3> perfectHand = new List<Vector3>() {
+    public List<Vector3> perfectHand = new List<Vector3>() {
         new Vector3(0,0,0),
         new Vector3(-0.09f, 0.08f, -0.07f),
         new Vector3(-0.17f, 0.15f, -0.09f),
@@ -51,15 +51,29 @@ public class LastHandPos : MonoBehaviour
         return Joints;
     }
 
-    public bool TrySpells(List<Vector3> Spell)
+    public bool TrySpells(List<Vector3> Spell, List<Vector3> handPos)
     {
-        for (int i = 0; i < 3; i++)
+        int similar = 0;
+        for (int i = 0; i < 21; i++)
         {
-            if (Spell[4][i] < Spell[8][i])
+            int pointSimilar = 0;
+            for (int y = 0; y < 3; y++)
             {
-
+                if (Spell[i][y] > handPos[i][y] - 0.05 && Spell[i][y] < handPos[i][y] + 0.05)
+                {
+                    pointSimilar++;
+                }
             }
+            if (pointSimilar >= 3)  similar++;
         }
-        return true;
+        if (similar > 17)
+        {
+            Application.Quit();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
