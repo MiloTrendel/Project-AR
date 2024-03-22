@@ -9,7 +9,9 @@ public class SpellManager : MonoBehaviour
     [SerializeField] public TextAsset jsonInfoText;
     [SerializeField] public TextAsset jsonPosText;
 
-    List<Spell> Spells = new();
+    [SerializeField] private GameObject ParticulePrefab;
+
+    readonly List<Spell> Spells = new();
 
     private void Awake()
     {
@@ -25,11 +27,11 @@ public class SpellManager : MonoBehaviour
 
     void Start()
     {
-        Spells.Add(new Spell0Cast());
-        Spells.Add(new Spell1Cast());
-        Spells.Add(new Spell2Cast());
-        Spells.Add(new Spell3Cast());
-        Spells.Add(new Spell4Cast());
+        Spells.Add(new Spell0(ParticulePrefab, GameStateContext.Player1.ParticuleSpawn));
+        Spells.Add(new Spell1());
+        Spells.Add(new Spell2());
+        Spells.Add(new Spell3());
+        Spells.Add(new Spell4());
     }
 
     public void ButtonSpellCast(int spellId)

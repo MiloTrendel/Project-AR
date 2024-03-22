@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class GenericPlayer
@@ -15,6 +14,10 @@ public abstract class GenericPlayer
     protected float ManaDelta = 0.1f;
     
     public GenericPlayer Enemy;
+
+    public Transform ParticuleSpawn;
+
+    public List<GenericParticule> Particules = new();
 
     protected GenericPlayerState CurrentState;
 
@@ -105,6 +108,14 @@ public abstract class GenericPlayer
         protected GenericPlayer CurrentPlayer;
 
         public abstract void Update();
+
+        protected void ManageParticules()
+        {
+            for (int loop = 0; loop < CurrentPlayer.Particules.Count; loop++)
+            {
+                CurrentPlayer.FameDelta *= 1.1f;
+            }
+        }
     }
 
     // vvv Derived GenericPlayerState vvv
@@ -117,6 +128,7 @@ public abstract class GenericPlayer
 
         public override void Update()
         {
+            ManageParticules();
             CurrentPlayer.Fame += CurrentPlayer.FameDelta;
             CurrentPlayer.Mana += CurrentPlayer.ManaDelta;
         }
@@ -130,6 +142,7 @@ public abstract class GenericPlayer
 
         public override void Update()
         {
+            ManageParticules();
             CurrentPlayer.Mana += CurrentPlayer.ManaDelta * 2;
             if (CurrentPlayer.Enemy != null)
                 CurrentPlayer.Fame -= CurrentPlayer.FameDelta;
@@ -144,6 +157,7 @@ public abstract class GenericPlayer
 
         public override void Update()
         {
+            ManageParticules();
             CurrentPlayer.Fame += CurrentPlayer.FameDelta;
             if (CurrentPlayer.Enemy != null)
                 CurrentPlayer.Mana -= CurrentPlayer.ManaDelta;

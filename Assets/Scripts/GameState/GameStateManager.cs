@@ -4,6 +4,11 @@ public class GameStateManager : StateManager<GameStateManager.EGameStates>
 {
     private static bool isDebugging = false;
 
+    public GameObject ParticulePrebaf;
+
+    [SerializeField] private Transform ParticuleSpawn1;
+    [SerializeField] private Transform ParticuleSpawn2;
+
     public enum EGameStates
     {
         MainMenu,
@@ -19,13 +24,14 @@ public class GameStateManager : StateManager<GameStateManager.EGameStates>
 
     private void Awake()
     {
-        if (GameStateContext.Player1 == null)
-            GameStateContext.Player1 = new Player();
-        if (GameStateContext.Player2 == null)
-            GameStateContext.Player2 = new AI();
+        GameStateContext.Player1 ??= new Player();
+        GameStateContext.Player2 ??= new AI();
 
         GameStateContext.Player1.Enemy = GameStateContext.Player2;
         GameStateContext.Player2.Enemy = GameStateContext.Player1;
+
+        GameStateContext.Player1.ParticuleSpawn = ParticuleSpawn1;
+        GameStateContext.Player2.ParticuleSpawn = ParticuleSpawn2;
 
         InitializeStates();
 

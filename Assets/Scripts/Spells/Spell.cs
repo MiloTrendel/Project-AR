@@ -9,6 +9,9 @@ public abstract class Spell
     public int Mana { get; private set; }
     public List<Vector3> SpellCastingSign { get; private set; }
 
+    public Transform ParticuleSpawn { get; protected set; }
+    public GameObject ParticulePrefab { get; protected set; }
+
     protected void SetupSpellWithID(int jsonID = 0)
     {
         JSONSpellsInfoReader.JsonSpell jsonSpell = SpellManager.SpellInfoReader.SpellsInfo[jsonID];
@@ -32,22 +35,24 @@ public abstract class Spell
 //
 
 #region Specific Spells
-public class Spell0Cast : Spell
+public class Spell0 : Spell
 {
-    public Spell0Cast()
+    public Spell0(GameObject particulePrefab, Transform particuleSpawn)
     {
         base.SetupSpellWithID(0);
+        ParticuleSpawn = particuleSpawn;
+        ParticulePrefab = particulePrefab;
     }
 
     public override void Cast()
     {
-        base.Cast();
+        GameStateContext.Player1.Particules.Add(new GenericParticule(ParticulePrefab));
     }
 }
 
-public class Spell1Cast : Spell
+public class Spell1 : Spell
 {
-    public Spell1Cast()
+    public Spell1()
     {
         base.SetupSpellWithID(1);
     }
@@ -58,9 +63,9 @@ public class Spell1Cast : Spell
     }
 }
 
-public class Spell2Cast : Spell
+public class Spell2 : Spell
 {
-    public Spell2Cast()
+    public Spell2()
     {
         base.SetupSpellWithID(2);
     }
@@ -71,9 +76,9 @@ public class Spell2Cast : Spell
     }
 }
 
-public class Spell3Cast : Spell
+public class Spell3 : Spell
 {
-    public Spell3Cast()
+    public Spell3()
     {
         base.SetupSpellWithID(3);
     }
@@ -85,9 +90,9 @@ public class Spell3Cast : Spell
 
 }
 
-public class Spell4Cast : Spell
+public class Spell4 : Spell
 {
-    public Spell4Cast()
+    public Spell4()
     {
         base.SetupSpellWithID(4);
     }
