@@ -2,14 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameStateContext
+public static class GameStateContext
 {
     // Propreties here
 
-    public Player player;
+    public static GenericPlayer Player1, Player2;
 
-    public GameStateContext(Player _player)
+    public static GenericPlayer GetEnemy(GenericPlayer target)
     {
-        player = _player;
+        if (target == null)
+            return null;
+        if (Player1 == null || Player2 == null)
+            return null;
+
+        if (Player1.Equals(target))
+            return Player2;
+        if (Player2.Equals(target))
+            return Player1;
+        return null;
     }
 }

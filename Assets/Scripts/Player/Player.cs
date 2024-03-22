@@ -1,18 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Timeline.TimelinePlaybackControls;
 
-public class Player : MonoBehaviour
+public class Player : GenericPlayer
 {
-    // Start is called before the first frame update
-    void Start()
+    // TODO (inputs)
+    public Player() : base()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

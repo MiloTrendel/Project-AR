@@ -5,9 +5,8 @@ using UnityEngine.Rendering.VirtualTexturing;
 
 public class GMMap : GMBaseState
 {
-    public GMMap(GameStateContext context, GameStateManager.EGameStates key) : base(context, key)
+    public GMMap(GameStateManager.EGameStates key) : base(key)
     {
-        GameStateContext Context = context;
     }
 
     public override void EnterState()
@@ -24,19 +23,19 @@ public class GMMap : GMBaseState
 
     public override GameStateManager.EGameStates GetNextState()
     {
-        return nextStateKey;
+        return NextStateKey;
     }
 
     public override void ExitState()
     {
         if (isDebugging)
             Debug.Log("Exit map");
-        nextStateKey = StateKey;
+        NextStateKey = StateKey;
     }
 
     public override void DebugNextStateIterate()
     {
-        Debug.Log("DEBUG functon called");
-        nextStateKey = GameStateManager.EGameStates.Inventory;
+        Debug.Log("DEBUG function called");
+        NextStateKey = GameStateManager.EGameStates.Inventory;
     }
 }

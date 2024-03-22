@@ -20,8 +20,8 @@ public class Category : MonoBehaviour
     public int maxIconsForRow;
     public float categoryPositionY;
 
-    private int defaultHeight = 160;
-    private int extraHeightForRow = 100;
+    //private int defaultHeight = 160;
+    //private int extraHeightForRow = 100;
     private int iconWidth = 60;
     private int iconLeftMargin;
     private int iconRightMargin;
@@ -49,8 +49,8 @@ public class Category : MonoBehaviour
     /// </summary>
     void InitializeUIValues()
     {
-        defaultHeight = 160;
-        extraHeightForRow = 100;
+        //defaultHeight = 160;
+        //extraHeightForRow = 100;
         iconWidth = 60;
         iconLeftMargin = iconWidth / 3;
         iconRightMargin = iconWidth / 3;

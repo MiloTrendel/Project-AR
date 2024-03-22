@@ -1,31 +1,25 @@
-using Newtonsoft.Json;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static JSONSpellsInfoReader;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 
-public class JSONSpellsPointsPosReader : MonoBehaviour
+public class JSONSpellsPointsPosReader
 {
-    public TextAsset jsonText;
+    private TextAsset jsonText;
 
-    [System.Serializable]
-    public class JsonSpellsPointPos
+    [System.Serializable] public class JsonSpellPos
     {
         public List<Vector3> spellCastingSign;
     }
 
-    [System.Serializable]
-    public class SpellPosList
+    public JsonSpellPos[] SpeelsPos = null;
+
+    public JSONSpellsPointsPosReader(TextAsset jsonText)
     {
-        public JsonSpellsPointPos[] spells;
+        this.jsonText = jsonText;
     }
 
-    public SpellPosList spellPosList = new SpellPosList();
-
-
-    // Start is called before the first frame update
-    void Awake()
+    public void SetupSpells()
     {
-        spellPosList = JsonConvert.DeserializeObject<SpellPosList>(jsonText.text);
+        SpeelsPos = JsonConvert.DeserializeObject<JsonSpellPos[]>(jsonText.text);
     }
 }

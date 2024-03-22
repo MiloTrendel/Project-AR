@@ -5,9 +5,8 @@ using UnityEngine.Rendering.VirtualTexturing;
 
 public class GMWalk : GMBaseState
 {
-    public GMWalk(GameStateContext context, GameStateManager.EGameStates key) : base(context, key)
+    public GMWalk(GameStateManager.EGameStates key) : base(key)
     {
-        GameStateContext Context = context;
     }
 
     public override void EnterState()
@@ -24,19 +23,19 @@ public class GMWalk : GMBaseState
 
     public override GameStateManager.EGameStates GetNextState()
     {
-        return nextStateKey;
+        return NextStateKey;
     }
 
     public override void ExitState()
     {
         if (isDebugging)
             Debug.Log("Exit Walk");
-        nextStateKey = StateKey;
+        NextStateKey = StateKey;
     }
 
     public override void DebugNextStateIterate()
     {
-        Debug.Log("DEBUG functon called");
-        nextStateKey = GameStateManager.EGameStates.Show;
+        Debug.Log("DEBUG function called");
+        NextStateKey = GameStateManager.EGameStates.Show;
     }
 }

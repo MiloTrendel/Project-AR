@@ -1,35 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.LowLevel;
 using Newtonsoft.Json;
-using System.Linq;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 
-public class JSONSpellsInfoReader : MonoBehaviour
+public class JSONSpellsInfoReader
 {
-    public TextAsset jsonText;
+    private TextAsset jsonText;
 
-    [System.Serializable]
-    public class JsonSpells
+    [System.Serializable] public class JsonSpell
     {
-        public string name;
-        public int cooldown;
-        public int spellID;
-        public int mana;
+        public string Name;
+        public int Cooldown;
+        public int SpellID;
+        public int Mana;
     }
     
-    [System.Serializable]
-    public class SpellList
+    public JsonSpell[] SpellsInfo = null;
+
+    public JSONSpellsInfoReader(TextAsset jsonText)
     {
-        public JsonSpells[] spells;
+        this.jsonText = jsonText;
     }
 
-    public SpellList spellList = new SpellList();
-
-
-    // Start is called before the first frame update
-    void Awake()
+    public void SetupSpells()
     {
-        spellList = JsonConvert.DeserializeObject<SpellList>(jsonText.text);
+        SpellsInfo = (JsonConvert.DeserializeObject<JsonSpell[]>(jsonText.text));
     }
 }
