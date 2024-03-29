@@ -46,7 +46,7 @@ public class Spell0 : Spell
 
     public override void Cast()
     {
-        GameStateContext.Player1.Particules.Add(new GenericParticule(ParticulePrefab));
+        GameStateContext.Player1.AddParticule(new GenericParticule(ParticulePrefab));
     }
 }
 

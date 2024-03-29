@@ -4,6 +4,9 @@ public class GenericParticule
 {
     public GameObject ParticuleGO;
 
+    public float LifeTime { get; protected set; } = 2.0f;
+    public float Force { get; protected set; } = 1.1f;
+
     public GenericParticule(GameObject ParticulePrefab)
     {
         if (ParticuleGO == null)

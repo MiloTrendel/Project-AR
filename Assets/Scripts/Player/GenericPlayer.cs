@@ -61,7 +61,7 @@ public abstract class GenericPlayer
         Debug.Log(Fame + " de fame / " + Mana + " de Mana.");
     }
 
-    private void ClampStats()
+    protected void ClampStats()
     {
         if (Fame < 0.0f)
             Fame = 0.0f;
@@ -74,15 +74,26 @@ public abstract class GenericPlayer
             ManaOverload();
     }
 
-    private void Win()
+    protected void Win()
     {
         // TODO
     }
 
-    private void ManaOverload()
+    protected void ManaOverload()
     {
         // TODO
         Mana = 100.0f;
+    }
+
+    public void AddParticule(GenericParticule newParticule)
+    {
+        Particules.Add(newParticule);
+        PendAndKillParticule(newParticule.LifeTime, newParticule);
+    }
+    protected void PendAndKillParticule(float time, GenericParticule particule)
+    {
+        GameObject.Destroy(particule.ParticuleGO, time);
+        Particules.Remove(particule); // after time MonoBehaviour ?
     }
 
     public void SetState(EGenericPlayerStates key)
@@ -109,12 +120,15 @@ public abstract class GenericPlayer
 
         public abstract void Update();
 
-        protected void ManageParticules()
+        protected float ManageParticules(float baseDelta)
         {
-            for (int loop = 0; loop < CurrentPlayer.Particules.Count; loop++)
+            float resultDelta = baseDelta;
+            for (int loop = 0; loop < CurrentPlayer.Particules.Count; loop++) // foreach ?
             {
-                CurrentPlayer.FameDelta *= 1.1f;
+                resultDelta *= CurrentPlayer.Particules[loop].Force;
             }
+
+            return resultDelta;
         }
     }
 
@@ -128,9 +142,9 @@ public abstract class GenericPlayer
 
         public override void Update()
         {
-            ManageParticules();
-            CurrentPlayer.Fame += CurrentPlayer.FameDelta;
-            CurrentPlayer.Mana += CurrentPlayer.ManaDelta;
+            float nextFameDelta = ManageParticules(CurrentPlayer.FameDelta);
+            CurrentPlayer.Fame += nextFameDelta;
+            CurrentPlayer.Mana += nextFameDelta;
         }
     }
 
@@ -142,10 +156,9 @@ public abstract class GenericPlayer
 
         public override void Update()
         {
-            ManageParticules();
+            float nextFameDelta = ManageParticules(CurrentPlayer.FameDelta);
+            CurrentPlayer.Fame -= nextFameDelta;
             CurrentPlayer.Mana += CurrentPlayer.ManaDelta * 2;
-            if (CurrentPlayer.Enemy != null)
-                CurrentPlayer.Fame -= CurrentPlayer.FameDelta;
         }
     }
 
@@ -157,10 +170,10 @@ public abstract class GenericPlayer
 
         public override void Update()
         {
-            ManageParticules();
-            CurrentPlayer.Fame += CurrentPlayer.FameDelta;
+            float nextFameDelta = ManageParticules(CurrentPlayer.FameDelta);
+            CurrentPlayer.Fame += nextFameDelta;
             if (CurrentPlayer.Enemy != null)
-                CurrentPlayer.Mana -= CurrentPlayer.ManaDelta;
+                CurrentPlayer.Enemy.Mana -= CurrentPlayer.ManaDelta;
         }
     }
 
