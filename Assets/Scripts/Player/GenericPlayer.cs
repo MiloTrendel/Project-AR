@@ -88,12 +88,11 @@ public abstract class GenericPlayer
     public void AddParticule(GenericParticule newParticule)
     {
         Particules.Add(newParticule);
-        PendAndKillParticule(newParticule.LifeTime, newParticule);
     }
-    protected void PendAndKillParticule(float time, GenericParticule particule)
+
+    public void RemoveParticule(GenericParticule newParticule)
     {
-        GameObject.Destroy(particule.ParticuleGO, time);
-        Particules.Remove(particule); // after time MonoBehaviour ?
+        Particules.Remove(newParticule);
     }
 
     public void SetState(EGenericPlayerStates key)
@@ -157,8 +156,12 @@ public abstract class GenericPlayer
         public override void Update()
         {
             float nextFameDelta = ManageParticules(CurrentPlayer.FameDelta);
-            CurrentPlayer.Fame -= nextFameDelta;
-            CurrentPlayer.Mana += CurrentPlayer.ManaDelta * 2;
+            if (CurrentPlayer.Fame <= 0.0f)
+                return;
+
+            float nextManaDelta = ManageParticules(CurrentPlayer.ManaDelta);
+            CurrentPlayer.Mana += nextManaDelta;
+            CurrentPlayer.Fame -= CurrentPlayer.ManaDelta;
         }
     }
 
@@ -170,10 +173,13 @@ public abstract class GenericPlayer
 
         public override void Update()
         {
+            if (CurrentPlayer.Mana <= 0.0f)
+                return;
+
             float nextFameDelta = ManageParticules(CurrentPlayer.FameDelta);
             CurrentPlayer.Fame += nextFameDelta;
             if (CurrentPlayer.Enemy != null)
-                CurrentPlayer.Enemy.Mana -= CurrentPlayer.ManaDelta;
+                CurrentPlayer.Enemy.Fame -= nextFameDelta;
         }
     }
 

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
 public abstract class Spell
@@ -11,6 +12,8 @@ public abstract class Spell
 
     public Transform ParticuleSpawn { get; protected set; }
     public GameObject ParticulePrefab { get; protected set; }
+
+    protected SpellManager spellManager;
 
     protected void SetupSpellWithID(int jsonID = 0)
     {
@@ -37,22 +40,32 @@ public abstract class Spell
 #region Specific Spells
 public class Spell0 : Spell
 {
-    public Spell0(GameObject particulePrefab, Transform particuleSpawn)
+    public Spell0(GameObject particulePrefab, Transform particuleSpawn, SpellManager newSpellManager)
     {
         base.SetupSpellWithID(0);
         ParticuleSpawn = particuleSpawn;
         ParticulePrefab = particulePrefab;
+        spellManager = newSpellManager;
     }
 
     public override void Cast()
     {
-        GameStateContext.Player1.AddParticule(new GenericParticule(ParticulePrefab));
+        GenericParticule newParticule = new GenericParticule(ParticulePrefab);
+        GameStateContext.Player1.AddParticule(newParticule);
+
+        spellManager.StartCoroutine(PendAndKillParticule(newParticule.LifeTime, newParticule));
+    }
+    protected IEnumerator PendAndKillParticule(float time, GenericParticule particule)
+    {
+        GameObject.Destroy(particule.ParticuleGO, time);
+        yield return new WaitForSeconds(time);
+        GameStateContext.Player1.RemoveParticule(particule);
     }
 }
 
 public class Spell1 : Spell
 {
-    public Spell1()
+    public Spell1(SpellManager newSpellManager)
     {
         base.SetupSpellWithID(1);
     }
@@ -65,7 +78,7 @@ public class Spell1 : Spell
 
 public class Spell2 : Spell
 {
-    public Spell2()
+    public Spell2(SpellManager newSpellManager)
     {
         base.SetupSpellWithID(2);
     }
@@ -78,7 +91,7 @@ public class Spell2 : Spell
 
 public class Spell3 : Spell
 {
-    public Spell3()
+    public Spell3(SpellManager newSpellManager)
     {
         base.SetupSpellWithID(3);
     }
@@ -92,7 +105,7 @@ public class Spell3 : Spell
 
 public class Spell4 : Spell
 {
-    public Spell4()
+    public Spell4(SpellManager newSpellManager)
     {
         base.SetupSpellWithID(4);
     }
