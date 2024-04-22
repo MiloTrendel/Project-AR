@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Spell
@@ -14,6 +14,14 @@ public abstract class Spell
     public GameObject ParticulePrefab { get; protected set; }
 
     protected SpellManager spellManager;
+    protected GenericPlayer player;
+
+    protected Spell(SpellManager newSpellManager, int Mana, GenericPlayer player)
+    {
+        spellManager = newSpellManager;
+        this.Mana = Mana;
+        this.player = player;
+    }
 
     protected void SetupSpellWithID(int jsonID = 0)
     {
@@ -25,9 +33,16 @@ public abstract class Spell
         SpellCastingSign = SpellManager.SpellPosReader.SpeelsPos[jsonID].spellCastingSign;
     }
 
-    public virtual void Cast()
+    public virtual bool Cast()
     {
         UnityEngine.Debug.Log("Cast " + SpellID);
+
+        if (player.Mana < Mana)
+        {
+            return false;
+        }
+
+        return true;
     }
 }
 
@@ -40,20 +55,24 @@ public abstract class Spell
 #region Specific Spells
 public class Spell0 : Spell
 {
-    public Spell0(GameObject particulePrefab, Transform particuleSpawn, SpellManager newSpellManager)
+    public Spell0(GameObject particulePrefab, Transform particuleSpawn, SpellManager newSpellManager, int Mana, GenericPlayer player) : base(newSpellManager, Mana, player)
     {
         base.SetupSpellWithID(0);
         ParticuleSpawn = particuleSpawn;
         ParticulePrefab = particulePrefab;
-        spellManager = newSpellManager;
     }
 
-    public override void Cast()
+    public override bool Cast()
     {
-        GenericParticule newParticule = new GenericParticule(ParticulePrefab);
-        GameStateContext.Player1.AddParticule(newParticule);
+        if (!base.Cast())
+            return false;
+        player.Mana -= Mana;
+
+        GenericParticule newParticule = new(ParticulePrefab);
+        player.AddParticule(newParticule);
 
         spellManager.StartCoroutine(PendAndKillParticule(newParticule.LifeTime, newParticule));
+        return true;
     }
     protected IEnumerator PendAndKillParticule(float time, GenericParticule particule)
     {
@@ -65,54 +84,77 @@ public class Spell0 : Spell
 
 public class Spell1 : Spell
 {
-    public Spell1(SpellManager newSpellManager)
+    public Spell1(SpellManager newSpellManager, int Mana, GenericPlayer player) : base(newSpellManager, Mana, player)
     {
         base.SetupSpellWithID(1);
     }
 
-    public override void Cast()
+    public override bool Cast()
     {
-        base.Cast();
+        if (!base.Cast())
+            return false;
+        player.Mana -= Mana;
+
+        short NbPart = (short)player.Particules.Count;
+        short NbEnnPart = (short)GameStateContext.GetEnemy(player).Particules.Count;
+
+        if (NbPart < NbEnnPart)
+            return false;
+
+        short Diff = (short)(NbPart - NbEnnPart);
+
+        GameStateContext.GetEnemy(player).Fame -= Diff * Mana;
+        player.Fame += Diff * Mana;
+
+        return true;
     }
 }
 
 public class Spell2 : Spell
 {
-    public Spell2(SpellManager newSpellManager)
+    public Spell2(SpellManager newSpellManager, int Mana, GenericPlayer player) : base(newSpellManager, Mana, player)
     {
         base.SetupSpellWithID(2);
     }
 
-    public override void Cast()
+    public override bool Cast()
     {
-        base.Cast();
+        if (!base.Cast())
+            return false;
+
+        return true;
+
     }
 }
 
 public class Spell3 : Spell
 {
-    public Spell3(SpellManager newSpellManager)
+    public Spell3(SpellManager newSpellManager, int Mana, GenericPlayer player) : base(newSpellManager, Mana, player)
     {
         base.SetupSpellWithID(3);
     }
 
-    public override void Cast()
+    public override bool Cast()
     {
-        base.Cast();
+        if (!base.Cast())
+            return false;
+        return true;
     }
 
 }
 
 public class Spell4 : Spell
 {
-    public Spell4(SpellManager newSpellManager)
+    public Spell4(SpellManager newSpellManager, int Mana, GenericPlayer player) : base(newSpellManager, Mana, player)
     {
         base.SetupSpellWithID(4);
     }
 
-    public override void Cast()
+    public override bool Cast()
     {
-        base.Cast();
+        if (!base.Cast())
+            return false;
+        return true;
     }
 }
 #endregion

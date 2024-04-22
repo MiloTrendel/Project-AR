@@ -27,11 +27,12 @@ public class SpellManager : MonoBehaviour
 
     void Start()
     {
-        Spells.Add(new Spell0(ParticulePrefab, GameStateContext.Player1.ParticuleSpawn, this));
-        Spells.Add(new Spell1(this));
-        Spells.Add(new Spell2(this));
-        Spells.Add(new Spell3(this));
-        Spells.Add(new Spell4(this));
+        GenericPlayer player1 = GameStateContext.Player1;
+        Spells.Add(new Spell0(ParticulePrefab, player1.ParticuleSpawn, this, 5, player1));
+        Spells.Add(new Spell1(this, 25, player1));
+        Spells.Add(new Spell2(this, 0, player1));
+        Spells.Add(new Spell3(this, 0, player1));
+        Spells.Add(new Spell4(this, 0, player1));
     }
 
     public void ButtonSpellCast(int spellId)

@@ -7,8 +7,8 @@ public abstract class GenericPlayer
     public int Level { get; protected set; } = 0;
     public int Score { get; protected set; } = 0;
 
-    public float Fame { get; protected set; } = 0.0f;
-    public float Mana { get; protected set; } = 0.0f;
+    public float Fame { get; set; } = 0.0f;
+    public float Mana { get; set; } = 0.0f;
 
     protected float FameDelta = 0.1f;
     protected float ManaDelta = 0.1f;
@@ -118,17 +118,6 @@ public abstract class GenericPlayer
         protected GenericPlayer CurrentPlayer;
 
         public abstract void Update();
-
-        protected float ManageParticules(float baseDelta)
-        {
-            float resultDelta = baseDelta;
-            for (int loop = 0; loop < CurrentPlayer.Particules.Count; loop++) // foreach ?
-            {
-                resultDelta *= CurrentPlayer.Particules[loop].Force;
-            }
-
-            return resultDelta;
-        }
     }
 
     // vvv Derived GenericPlayerState vvv
@@ -141,9 +130,7 @@ public abstract class GenericPlayer
 
         public override void Update()
         {
-            float nextFameDelta = ManageParticules(CurrentPlayer.FameDelta);
-            CurrentPlayer.Fame += nextFameDelta;
-            CurrentPlayer.Mana += nextFameDelta;
+            CurrentPlayer.Mana += CurrentPlayer.ManaDelta;
         }
     }
 
@@ -155,13 +142,6 @@ public abstract class GenericPlayer
 
         public override void Update()
         {
-            float nextFameDelta = ManageParticules(CurrentPlayer.FameDelta);
-            if (CurrentPlayer.Fame <= 0.0f)
-                return;
-
-            float nextManaDelta = ManageParticules(CurrentPlayer.ManaDelta);
-            CurrentPlayer.Mana += nextManaDelta;
-            CurrentPlayer.Fame -= CurrentPlayer.ManaDelta;
         }
     }
 
@@ -173,13 +153,6 @@ public abstract class GenericPlayer
 
         public override void Update()
         {
-            if (CurrentPlayer.Mana <= 0.0f)
-                return;
-
-            float nextFameDelta = ManageParticules(CurrentPlayer.FameDelta);
-            CurrentPlayer.Fame += nextFameDelta;
-            if (CurrentPlayer.Enemy != null)
-                CurrentPlayer.Enemy.Fame -= nextFameDelta;
         }
     }
 
