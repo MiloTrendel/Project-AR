@@ -39,6 +39,7 @@ public abstract class Spell
 
         if (player.Mana < Mana)
         {
+            player.Mana -= Mana;
             return false;
         }
 
@@ -66,7 +67,6 @@ public class Spell0 : Spell
     {
         if (!base.Cast())
             return false;
-        player.Mana -= Mana;
 
         GenericParticule newParticule = new(ParticulePrefab);
         player.AddParticule(newParticule);
@@ -93,7 +93,6 @@ public class Spell1 : Spell
     {
         if (!base.Cast())
             return false;
-        player.Mana -= Mana;
 
         short NbPart = (short)player.Particules.Count;
         short NbEnnPart = (short)GameStateContext.GetEnemy(player).Particules.Count;
@@ -121,9 +120,18 @@ public class Spell2 : Spell
     {
         if (!base.Cast())
             return false;
+        short NbPart = (short)player.Particules.Count;
+        short NbEnnPart = (short)GameStateContext.GetEnemy(player).Particules.Count;
+
+        if (NbPart < NbEnnPart)
+            return false;
+
+        short Diff = (short)(NbPart - NbEnnPart);
+
+        player.Mana -= Diff * Mana;
+        player.Fame += Diff * Mana;
 
         return true;
-
     }
 }
 
@@ -138,6 +146,12 @@ public class Spell3 : Spell
     {
         if (!base.Cast())
             return false;
+
+        foreach (GenericParticule genericParticule in player.Particules)
+        {
+            genericParticule.LifeTime *= 2;
+        }
+
         return true;
     }
 
