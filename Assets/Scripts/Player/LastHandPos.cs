@@ -1,12 +1,14 @@
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 
 public class LastHandPos : MonoBehaviour
 {
+    public GameObject panelTest;
 
     private List<Vector3> Joints;
-    public List<Vector3> perfectHand = new List<Vector3>() {
+    private List<Vector3> perfectHand = new List<Vector3>() {
         new Vector3(0,0,0),
         new Vector3(-0.09f, 0.08f, -0.07f),
         new Vector3(-0.17f, 0.15f, -0.09f),
@@ -32,48 +34,40 @@ public class LastHandPos : MonoBehaviour
 
     public List<Vector3> UpdateJointPositions(bool jointouorientation, SkeletonInfo skeletonInfo)
     {
-        Debug.Log("======================================================");
-        Joints = new List<Vector3>(21);
-        Vector3[] valSkeleton = skeletonInfo.orientation_joints;
-
-        if (jointouorientation) valSkeleton = skeletonInfo.joints;
-        Vector3 origin = valSkeleton[0];
-
-        int x = 0;
-        foreach (var field in valSkeleton)
+        if (skeletonInfo.confidence == 1)
         {
-            Vector3 joint = new Vector3(field.x - origin.x, field.y - origin.y, field.z);
-            Joints.Add(joint);
-            Debug.Log(x + " : " + joint);
-            x++;
+            Joints = new List<Vector3>(21);
+            Debug.Log("======================================================");
+            Vector3[] valSkeleton = skeletonInfo.joints;
+            Vector3 origin = valSkeleton[0]; int x = 0;
+            foreach (var field in valSkeleton)
+            {
+                Vector3 joint = new Vector3(field.x - origin.x, field.y - origin.y, field.z - origin.z);
+                Joints.Add(joint);
+                Debug.Log(x + " : " + joint);
+                x++;
+            }
+
+            TrySpells(Joints);
         }
 
         return Joints;
     }
 
-    public bool TrySpells(List<Vector3> Spell, List<Vector3> handPos)
+    public bool TrySpells(List<Vector3> Spell)
     {
-        int similar = 0;
-        for (int i = 0; i < 21; i++)
+        int spellValid = 0;
+        for (int i = 0; i < 3; i++)
         {
-            int pointSimilar = 0;
-            for (int y = 0; y < 3; y++)
+            if ((Spell[4][i] < Spell[8][i] + 0.1f && Spell[4][i] > Spell[8][i] - 0.1f) || (Spell[8][i] < Spell[4][i] + 0.1f && Spell[8][i] > Spell[4][i] - 0.1f))
             {
-                if (Spell[i][y] > handPos[i][y] - 0.05 && Spell[i][y] < handPos[i][y] + 0.05)
-                {
-                    pointSimilar++;
-                }
+                spellValid++;
             }
-            if (pointSimilar >= 3)  similar++;
         }
-        if (similar > 17)
+        if (spellValid == 3)
         {
-            Application.Quit();
-            return true;
+            panelTest.SetActive(true);
         }
-        else
-        {
-            return false;
-        }
+        return true;
     }
 }

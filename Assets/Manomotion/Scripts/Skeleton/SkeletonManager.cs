@@ -70,7 +70,7 @@ public class SkeletonManager : MonoBehaviour
 
         SkeletonModel(0, 1);
 
-        ManomotionManager.OnSkeleton3dActive += SkeletonModel;     
+        ManomotionManager.OnSkeleton3dActive += SkeletonModel;
 
         for (int i = 0; i < jointsMaterial.Length; i++)
         {
@@ -127,15 +127,17 @@ public class SkeletonManager : MonoBehaviour
     }
 
 
+
+    public LastHandPos LastHandPosHITO;
+
     void Update()
     {
         skeletonInfo = ManomotionManager.Instance.Hand_infos[0].hand_info.tracking_info.skeleton;
         hasConfidence = skeletonInfo.confidence > skeletonConfidenceThreshold;
         UpdateJointPositions();
         UpdateJointorientation();
-        LastHandPos test = new LastHandPos();
-        List<Vector3> handPos = test.UpdateJointPositions(true, skeletonInfo);
-        test.TrySpells(test.perfectHand, handPos);
+        LastHandPos test = LastHandPosHITO;
+        test.UpdateJointPositions(true, skeletonInfo);
     }
 
     /// <summary>
