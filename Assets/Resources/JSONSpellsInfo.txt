@@ -1,19 +1,19 @@
 [
 	{
-		"name": "Coucou",
-		"cooldown": 10,
+		"name": "Spawn",
+		"cooldown": 2,
 		"spellID": 1,
 		"mana" : 5
 	},
 	{
-		"name": "Spell2",
+		"name": "Centre",
 		"cooldown": 8,
 		"spellID": 2,
 		"mana" : 3
 	},
 	{
-		"name": "Spell3",
-		"cooldown": 2,
+		"name": "Tornado",
+		"cooldown": 10,
 		"spellID": 3,
 		"mana" : 10
 	},

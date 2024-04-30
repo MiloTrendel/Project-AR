@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,7 +10,9 @@ public class SpellManager : MonoBehaviour
     [SerializeField] public TextAsset jsonInfoText;
     [SerializeField] public TextAsset jsonPosText;
 
-    List<Spell> Spells = new();
+    [SerializeField] private GameObject ParticulePrefab;
+
+    readonly Dictionary<string, Spell> Spells = new();
 
     private void Awake()
     {
@@ -25,15 +28,47 @@ public class SpellManager : MonoBehaviour
 
     void Start()
     {
-        Spells.Add(new Spell0Cast());
-        Spells.Add(new Spell1Cast());
-        Spells.Add(new Spell2Cast());
-        Spells.Add(new Spell3Cast());
-        Spells.Add(new Spell4Cast());
+        GenericPlayer player1 = GameStateContext.Player1;
+        AddSpell("Centre", player1);
+        AddSpell("Spawn", player1);
+        AddSpell("Tornado", player1);
     }
 
-    public void ButtonSpellCast(int spellId)
+    public void CastSpell(string spellName)
     {
-        Spells[spellId].Cast();
+        Spells[spellName].Cast();
+    }
+
+    private void AddSpell(string spellName, GenericPlayer player)
+    {
+        Spells.Add(spellName, GetSpell(spellName, player));
+    }
+
+    private Spell GetSpell(string spellName, GenericPlayer player)
+    {
+        foreach (var spellInfo in SpellInfoReader.SpellsInfo)
+        {
+            if (spellInfo.Name != spellName)
+                continue;
+
+            Type type = Type.GetType(spellName);
+
+            Spell spell = (Spell)Activator.CreateInstance(type);
+
+            spell.Name = spellInfo.Name;
+            spell.Cooldown = spellInfo.Cooldown;
+            spell.SpellID = spellInfo.SpellID;
+            spell.Mana = spellInfo.Mana;
+            spell.ParticuleSpawn = player.ParticuleSpawn;
+            spell.player = player;
+
+            spell.spellManager = this;
+
+            if (spellName == "Spawn")
+                spell.ParticulePrefab = ParticulePrefab;
+
+            return spell;
+        }
+        return null;
     }
 }

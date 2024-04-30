@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class GenericPlayer
@@ -8,13 +7,17 @@ public abstract class GenericPlayer
     public int Level { get; protected set; } = 0;
     public int Score { get; protected set; } = 0;
 
-    public float Fame { get; protected set; } = 0.0f;
-    public float Mana { get; protected set; } = 0.0f;
+    public float Fame { get; set; } = 0.0f;
+    public float Mana { get; set; } = 0.0f;
 
     protected float FameDelta = 0.1f;
     protected float ManaDelta = 0.1f;
     
     public GenericPlayer Enemy;
+
+    public Transform ParticuleSpawn;
+
+    public List<GenericParticule> Particules = new();
 
     protected GenericPlayerState CurrentState;
 
@@ -58,7 +61,7 @@ public abstract class GenericPlayer
         Debug.Log(Fame + " de fame / " + Mana + " de Mana.");
     }
 
-    private void ClampStats()
+    protected void ClampStats()
     {
         if (Fame < 0.0f)
             Fame = 0.0f;
@@ -71,15 +74,25 @@ public abstract class GenericPlayer
             ManaOverload();
     }
 
-    private void Win()
+    protected void Win()
     {
         // TODO
     }
 
-    private void ManaOverload()
+    protected void ManaOverload()
     {
         // TODO
         Mana = 100.0f;
+    }
+
+    public void AddParticule(GenericParticule newParticule)
+    {
+        Particules.Add(newParticule);
+    }
+
+    public void RemoveParticule(GenericParticule newParticule)
+    {
+        Particules.Remove(newParticule);
     }
 
     public void SetState(EGenericPlayerStates key)
@@ -117,7 +130,6 @@ public abstract class GenericPlayer
 
         public override void Update()
         {
-            CurrentPlayer.Fame += CurrentPlayer.FameDelta;
             CurrentPlayer.Mana += CurrentPlayer.ManaDelta;
         }
     }
@@ -130,9 +142,6 @@ public abstract class GenericPlayer
 
         public override void Update()
         {
-            CurrentPlayer.Mana += CurrentPlayer.ManaDelta * 2;
-            if (CurrentPlayer.Enemy != null)
-                CurrentPlayer.Fame -= CurrentPlayer.FameDelta;
         }
     }
 
@@ -144,9 +153,6 @@ public abstract class GenericPlayer
 
         public override void Update()
         {
-            CurrentPlayer.Fame += CurrentPlayer.FameDelta;
-            if (CurrentPlayer.Enemy != null)
-                CurrentPlayer.Mana -= CurrentPlayer.ManaDelta;
         }
     }
 

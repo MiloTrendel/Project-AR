@@ -1,27 +1,36 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Spell
 {
-    public string Name { get; private set; }
-    public int Cooldown { get; private set; }
-    public int SpellID { get; private set; }
-    public int Mana { get; private set; }
-    public List<Vector3> SpellCastingSign { get; private set; }
+    public string Name { get; set; }
+    public int Cooldown { get; set; }
+    public int SpellID { get; set; }
+    public int Mana { get; set; }
+    public List<Vector3> SpellCastingSign { get; set; }
 
-    protected void SetupSpellWithID(int jsonID = 0)
+    public Transform ParticuleSpawn { get; set; }
+    public GameObject ParticulePrefab { get; set; }
+
+    public SpellManager spellManager { get; set; }
+    public GenericPlayer player { get; set; }
+
+    protected Spell()
     {
-        JSONSpellsInfoReader.JsonSpell jsonSpell = SpellManager.SpellInfoReader.SpellsInfo[jsonID];
-        Name = jsonSpell.Name;
-        Cooldown = jsonSpell.Cooldown;
-        SpellID = jsonSpell.SpellID;
-        Mana = jsonSpell.Mana;
-        SpellCastingSign = SpellManager.SpellPosReader.SpeelsPos[jsonID].spellCastingSign;
     }
 
-    public virtual void Cast()
+    public virtual bool Cast()
     {
         UnityEngine.Debug.Log("Cast " + SpellID);
+
+        if (player.Mana < Mana)
+        {
+            player.Mana -= Mana;
+            return false;
+        }
+
+        return true;
     }
 }
 
@@ -32,69 +41,75 @@ public abstract class Spell
 //
 
 #region Specific Spells
-public class Spell0Cast : Spell
+public class Spawn : Spell
 {
-    public Spell0Cast()
+    public Spawn()
     {
-        base.SetupSpellWithID(0);
     }
 
-    public override void Cast()
+    public override bool Cast()
     {
-        base.Cast();
+        if (!base.Cast())
+            return false;
+
+        GenericParticule newParticule = new(ParticulePrefab);
+        player.AddParticule(newParticule);
+
+        spellManager.StartCoroutine(PendAndKillParticule(newParticule.LifeTime, newParticule));
+        return true;
+    }
+    protected IEnumerator PendAndKillParticule(float time, GenericParticule particule)
+    {
+        GameObject.Destroy(particule.ParticuleGO, time);
+        yield return new WaitForSeconds(time);
+        GameStateContext.Player1.RemoveParticule(particule);
     }
 }
 
-public class Spell1Cast : Spell
+public class Tornado : Spell
 {
-    public Spell1Cast()
+    public Tornado()
     {
-        base.SetupSpellWithID(1);
     }
 
-    public override void Cast()
+    public override bool Cast()
     {
-        base.Cast();
+        if (!base.Cast())
+            return false;
+        spellManager.StartCoroutine(RotateParticules());
+        return true;
+    }
+
+    private IEnumerator RotateParticules()
+    {
+        bool turning = true;
+        int loop = 0;
+        while (turning)
+        {
+            foreach (GenericParticule part in player.Particules)
+            {
+                part.ParticuleGO.transform.RotateAround(ParticuleSpawn.transform.position, part.ParticuleGO.transform.forward, 1);
+            }
+            loop++;
+
+            yield return new WaitForSeconds(Time.deltaTime);
+        }
+
+        yield return new WaitForSeconds(1.0f);
     }
 }
 
-public class Spell2Cast : Spell
+public class Centre : Spell
 {
-    public Spell2Cast()
+    public Centre()
     {
-        base.SetupSpellWithID(2);
     }
 
-    public override void Cast()
+    public override bool Cast()
     {
-        base.Cast();
-    }
-}
-
-public class Spell3Cast : Spell
-{
-    public Spell3Cast()
-    {
-        base.SetupSpellWithID(3);
-    }
-
-    public override void Cast()
-    {
-        base.Cast();
-    }
-
-}
-
-public class Spell4Cast : Spell
-{
-    public Spell4Cast()
-    {
-        base.SetupSpellWithID(4);
-    }
-
-    public override void Cast()
-    {
-        base.Cast();
+        if (!base.Cast())
+            return false;
+        return true;
     }
 }
 #endregion
