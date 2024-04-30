@@ -4,33 +4,20 @@ using UnityEngine;
 
 public abstract class Spell
 {
-    public string Name { get; private set; }
-    public int Cooldown { get; private set; }
-    public int SpellID { get; private set; }
-    public int Mana { get; private set; }
-    public List<Vector3> SpellCastingSign { get; private set; }
+    public string Name { get; set; }
+    public int Cooldown { get; set; }
+    public int SpellID { get; set; }
+    public int Mana { get; set; }
+    public List<Vector3> SpellCastingSign { get; set; }
 
-    public Transform ParticuleSpawn { get; protected set; }
-    public GameObject ParticulePrefab { get; protected set; }
+    public Transform ParticuleSpawn { get; set; }
+    public GameObject ParticulePrefab { get; set; }
 
-    protected SpellManager spellManager;
-    protected GenericPlayer player;
+    public SpellManager spellManager { get; set; }
+    public GenericPlayer player { get; set; }
 
-    protected Spell(SpellManager newSpellManager, int Mana, GenericPlayer player)
+    protected Spell()
     {
-        spellManager = newSpellManager;
-        this.Mana = Mana;
-        this.player = player;
-    }
-
-    protected void SetupSpellWithID(int jsonID = 0)
-    {
-        JSONSpellsInfoReader.JsonSpell jsonSpell = SpellManager.SpellInfoReader.SpellsInfo[jsonID];
-        Name = jsonSpell.Name;
-        Cooldown = jsonSpell.Cooldown;
-        SpellID = jsonSpell.SpellID;
-        Mana = jsonSpell.Mana;
-        SpellCastingSign = SpellManager.SpellPosReader.SpeelsPos[jsonID].spellCastingSign;
     }
 
     public virtual bool Cast()
@@ -54,13 +41,10 @@ public abstract class Spell
 //
 
 #region Specific Spells
-public class Spell0 : Spell
+public class Spawn : Spell
 {
-    public Spell0(GameObject particulePrefab, Transform particuleSpawn, SpellManager newSpellManager, int Mana, GenericPlayer player) : base(newSpellManager, Mana, player)
+    public Spawn()
     {
-        base.SetupSpellWithID(0);
-        ParticuleSpawn = particuleSpawn;
-        ParticulePrefab = particulePrefab;
     }
 
     public override bool Cast()
@@ -82,86 +66,43 @@ public class Spell0 : Spell
     }
 }
 
-public class Spell1 : Spell
+public class Tornado : Spell
 {
-    public Spell1(SpellManager newSpellManager, int Mana, GenericPlayer player) : base(newSpellManager, Mana, player)
+    public Tornado()
     {
-        base.SetupSpellWithID(1);
     }
 
     public override bool Cast()
     {
         if (!base.Cast())
             return false;
-
-        short NbPart = (short)player.Particules.Count;
-        short NbEnnPart = (short)GameStateContext.GetEnemy(player).Particules.Count;
-
-        if (NbPart < NbEnnPart)
-            return false;
-
-        short Diff = (short)(NbPart - NbEnnPart);
-
-        GameStateContext.GetEnemy(player).Fame -= Diff * Mana;
-        player.Fame += Diff * Mana;
-
+        spellManager.StartCoroutine(RotateParticules());
         return true;
     }
-}
 
-public class Spell2 : Spell
-{
-    public Spell2(SpellManager newSpellManager, int Mana, GenericPlayer player) : base(newSpellManager, Mana, player)
+    private IEnumerator RotateParticules()
     {
-        base.SetupSpellWithID(2);
-    }
-
-    public override bool Cast()
-    {
-        if (!base.Cast())
-            return false;
-        short NbPart = (short)player.Particules.Count;
-        short NbEnnPart = (short)GameStateContext.GetEnemy(player).Particules.Count;
-
-        if (NbPart < NbEnnPart)
-            return false;
-
-        short Diff = (short)(NbPart - NbEnnPart);
-
-        player.Mana -= Diff * Mana;
-        player.Fame += Diff * Mana;
-
-        return true;
-    }
-}
-
-public class Spell3 : Spell
-{
-    public Spell3(SpellManager newSpellManager, int Mana, GenericPlayer player) : base(newSpellManager, Mana, player)
-    {
-        base.SetupSpellWithID(3);
-    }
-
-    public override bool Cast()
-    {
-        if (!base.Cast())
-            return false;
-
-        foreach (GenericParticule genericParticule in player.Particules)
+        bool turning = true;
+        int loop = 0;
+        while (turning)
         {
-            genericParticule.LifeTime *= 2;
+            foreach (GenericParticule part in player.Particules)
+            {
+                part.ParticuleGO.transform.RotateAround(ParticuleSpawn.transform.position, part.ParticuleGO.transform.forward, 1);
+            }
+            loop++;
+
+            yield return new WaitForSeconds(Time.deltaTime);
         }
 
-        return true;
+        yield return new WaitForSeconds(1.0f);
     }
-
 }
 
-public class Spell4 : Spell
+public class Centre : Spell
 {
-    public Spell4(SpellManager newSpellManager, int Mana, GenericPlayer player) : base(newSpellManager, Mana, player)
+    public Centre()
     {
-        base.SetupSpellWithID(4);
     }
 
     public override bool Cast()

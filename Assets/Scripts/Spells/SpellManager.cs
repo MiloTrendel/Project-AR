@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,7 +12,7 @@ public class SpellManager : MonoBehaviour
 
     [SerializeField] private GameObject ParticulePrefab;
 
-    readonly List<Spell> Spells = new();
+    readonly Dictionary<string, Spell> Spells = new();
 
     private void Awake()
     {
@@ -28,15 +29,46 @@ public class SpellManager : MonoBehaviour
     void Start()
     {
         GenericPlayer player1 = GameStateContext.Player1;
-        Spells.Add(new Spell0(ParticulePrefab, player1.ParticuleSpawn, this, 5, player1));
-        Spells.Add(new Spell1(this, 25, player1));
-        Spells.Add(new Spell2(this, 0, player1));
-        Spells.Add(new Spell3(this, 0, player1));
-        Spells.Add(new Spell4(this, 0, player1));
+        AddSpell("Centre", player1);
+        AddSpell("Spawn", player1);
+        AddSpell("Tornado", player1);
     }
 
-    public void ButtonSpellCast(int spellId)
+    public void CastSpell(string spellName)
     {
-        Spells[spellId].Cast();
+        Spells[spellName].Cast();
+    }
+
+    private void AddSpell(string spellName, GenericPlayer player)
+    {
+        Spells.Add(spellName, GetSpell(spellName, player));
+    }
+
+    private Spell GetSpell(string spellName, GenericPlayer player)
+    {
+        foreach (var spellInfo in SpellInfoReader.SpellsInfo)
+        {
+            if (spellInfo.Name != spellName)
+                continue;
+
+            Type type = Type.GetType(spellName);
+
+            Spell spell = (Spell)Activator.CreateInstance(type);
+
+            spell.Name = spellInfo.Name;
+            spell.Cooldown = spellInfo.Cooldown;
+            spell.SpellID = spellInfo.SpellID;
+            spell.Mana = spellInfo.Mana;
+            spell.ParticuleSpawn = player.ParticuleSpawn;
+            spell.player = player;
+
+            spell.spellManager = this;
+
+            if (spellName == "Spawn")
+                spell.ParticulePrefab = ParticulePrefab;
+
+            return spell;
+        }
+        return null;
     }
 }
