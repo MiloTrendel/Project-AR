@@ -69,7 +69,7 @@ namespace CameraSystem
             {
                 currentPlayingCamera.Play();
             }
-            catch
+            catch (System.Exception ex)
             {
 
             }

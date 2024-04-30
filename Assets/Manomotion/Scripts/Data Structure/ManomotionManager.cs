@@ -350,7 +350,7 @@ public class ManomotionManager : ManomotionBase
         manomotion_session.smoothing_controller = 0f;
         manomotion_session.gesture_smoothing_controller = 0.65f;
         manomotion_session.enabled_features.gestures = 1;
-        manomotion_session.enabled_features.skeleton_3d = 0;
+        manomotion_session.enabled_features.skeleton_3d = 1;
         manomotion_session.enabled_features.fast_mode = 0;
         manomotion_session.enabled_features.wrist_info = 0;
         manomotion_session.enabled_features.finger_info = 0;
@@ -426,9 +426,9 @@ public class ManomotionManager : ManomotionBase
         backOrFrontText = GameObject.Find("BackOrFrontMode").GetComponent<TMP_Text>();
     }
 
-#endregion
+    #endregion
 
-#region update_methods
+    #region update_methods
 
     protected void Update()
     {
@@ -750,9 +750,9 @@ public class ManomotionManager : ManomotionBase
         }
     }
 
-#endregion
+    #endregion
 
-#region update_wrappers
+    #region update_wrappers
 
     /// <summary>
     /// Wrapper method that calls the ManoMotion core tech to process the frame in order to perform hand tracking and gesture analysis
@@ -763,12 +763,12 @@ public class ManomotionManager : ManomotionBase
 
     }
 
-#endregion
+    #endregion
 
     protected override void Init(string serial_key)
     {
-            init(_manoSettings, ref _manoLicense);
-            _initialized = true;
+        init(_manoSettings, ref _manoLicense);
+        _initialized = true;
 
         if (OnManoMotionLicenseInitialized != null)
         {
