@@ -18,7 +18,7 @@
 		"mana" : 10
 	},
 	{
-		"name": "Spell4",
+		"name": "Double",
 		"cooldown": 5,
 		"spellID": 4,
 		"mana" : 3

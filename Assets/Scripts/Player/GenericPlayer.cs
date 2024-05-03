@@ -59,7 +59,14 @@ public abstract class GenericPlayer
         CurrentState.Update();
         ClampStats();
 
-        Debug.Log(Fame + " de fame / " + Mana + " de Mana.");
+        foreach (GenericParticule particule in Particules)
+        {
+            particule.LifeTime -= Time.deltaTime;
+            if (particule.LifeTime < 0)
+            {
+                RemoveParticule(particule);
+            }
+        }
     }
 
     protected void ClampStats()
@@ -94,6 +101,7 @@ public abstract class GenericPlayer
     public void RemoveParticule(GenericParticule newParticule)
     {
         Particules.Remove(newParticule);
+        Object.Destroy(newParticule.ParticuleGO);
     }
 
     public void SetState(EGenericPlayerStates key)

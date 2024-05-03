@@ -33,6 +33,7 @@ public class SpellManager : MonoBehaviour
         AddSpell("Centre", player1);
         AddSpell("Spawn", player1);
         AddSpell("Tornado", player1);
+        AddSpell("Double", player1);
     }
 
     private void Update()

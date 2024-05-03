@@ -55,16 +55,9 @@ public class Spawn : Spell
             return false;
 
         GenericParticule newParticule = new(ParticulePrefab);
+        newParticule.player = player;
         player.AddParticule(newParticule);
-
-        spellManager.StartCoroutine(PendAndKillParticule(newParticule.LifeTime, newParticule));
         return true;
-    }
-    protected IEnumerator PendAndKillParticule(float time, GenericParticule particule)
-    {
-        GameObject.Destroy(particule.ParticuleGO, time);
-        yield return new WaitForSeconds(time);
-        GameStateContext.Player1.RemoveParticule(particule);
     }
 }
 
@@ -111,6 +104,23 @@ public class Centre : Spell
     {
         if (!base.Cast())
             return false;
+        return true;
+    }
+}
+
+public class Double : Spell
+{
+    public Double() { }
+
+    public override bool Cast()
+    {
+        if (!base.Cast())
+            return false;
+
+        foreach (GenericParticule part in player.Particules)
+        {
+            part.LifeTime *= 2;
+        }
         return true;
     }
 }
