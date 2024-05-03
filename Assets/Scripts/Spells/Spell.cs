@@ -22,7 +22,9 @@ public abstract class Spell
 
     public virtual bool Cast()
     {
-        UnityEngine.Debug.Log("Cast " + SpellID);
+        if (player.SpellsCooldown[Name] > 0)
+            return false;
+        UnityEngine.Debug.Log("Cast " + Name);
 
         if (player.Mana < Mana)
         {

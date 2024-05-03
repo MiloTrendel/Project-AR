@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class SpellManager : MonoBehaviour
@@ -34,14 +35,38 @@ public class SpellManager : MonoBehaviour
         AddSpell("Tornado", player1);
     }
 
+    private void Update()
+    {
+        UpdateCooldown(GameStateContext.Player1.SpellsCooldown);
+        UpdateCooldown(GameStateContext.Player2.SpellsCooldown);
+    }
+    private void UpdateCooldown(Dictionary<string, float> cooldowns)
+    {
+        foreach (var cooldown in cooldowns.ToList())
+        {
+            if (cooldown.Value > 0)
+                cooldowns[cooldown.Key] -= Time.deltaTime;
+        }
+    }
+
     public void CastSpell(string spellName)
     {
-        Spells[spellName].Cast();
+        try
+        {
+            if (!Spells[spellName].Cast())
+                return;
+
+            Spells[spellName].player.SpellsCooldown[spellName] = Spells[spellName].Cooldown;
+        } catch { }
     }
 
     private void AddSpell(string spellName, GenericPlayer player)
     {
-        Spells.Add(spellName, GetSpell(spellName, player));
+        Spell spell = GetSpell(spellName, player);
+
+        player.SpellsCooldown[spellName] = spell.Cooldown;
+
+        Spells.Add(spellName, spell);
     }
 
     private Spell GetSpell(string spellName, GenericPlayer player)

@@ -4,6 +4,7 @@ using UnityEngine;
 public abstract class GenericPlayer
 {
     public List<Spell> Spells { get; protected set; } = new();
+    public Dictionary<string, float> SpellsCooldown { get; set; } = new();
     public int Level { get; protected set; } = 0;
     public int Score { get; protected set; } = 0;
 
