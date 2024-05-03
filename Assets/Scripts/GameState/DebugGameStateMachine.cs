@@ -1,6 +1,6 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class DebugGameStateMachine : MonoBehaviour
 {
@@ -17,7 +17,7 @@ public class DebugGameStateMachine : MonoBehaviour
     [SerializeField] private TMP_Text Player1State;
     [SerializeField] private TMP_Text Player2State;
 
-
+    [SerializeField] private SpellManager spellManager;
 
     void Update()
     {
@@ -41,5 +41,23 @@ public class DebugGameStateMachine : MonoBehaviour
             ManaSlide1.value = GameStateContext.Player1.Mana / 100.0f;
         if (ManaSlide2 != null)
             ManaSlide2.value = GameStateContext.Player2.Mana / 100.0f;
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            spellManager.CastSpell("Spawn", GameStateContext.Player1);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            spellManager.CastSpell("Tornado", GameStateContext.Player1);
+        }
+
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            spellManager.CastSpell("Spawn", GameStateContext.Player2);
+        }
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            spellManager.CastSpell("Tornado", GameStateContext.Player2);
+        }
     }
 }

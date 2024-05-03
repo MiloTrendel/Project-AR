@@ -13,8 +13,6 @@ public class SpellManager : MonoBehaviour
 
     [SerializeField] private GameObject ParticulePrefab;
 
-    readonly Dictionary<string, Spell> Spells = new();
-
     private void Awake()
     {
         if (SpellInfoReader == null)
@@ -34,6 +32,12 @@ public class SpellManager : MonoBehaviour
         AddSpell("Spawn", player1);
         AddSpell("Tornado", player1);
         AddSpell("Double", player1);
+
+        GenericPlayer player2 = GameStateContext.Player2;
+        AddSpell("Centre", player2);
+        AddSpell("Spawn", player2);
+        AddSpell("Tornado", player2);
+        AddSpell("Double", player2);
     }
 
     private void Update()
@@ -50,27 +54,26 @@ public class SpellManager : MonoBehaviour
         }
     }
 
-    public void CastSpell(string spellName)
+    public void CastSpell(string spellName, GenericPlayer player)
     {
         try
         {
-            if (!Spells[spellName].Cast())
+            if (!player.Spells[spellName].Cast())
                 return;
 
-            Spells[spellName].player.SpellsCooldown[spellName] = Spells[spellName].Cooldown;
+            player.SpellsCooldown[spellName] = player.Spells[spellName].Cooldown;
         } catch { }
     }
 
     private void AddSpell(string spellName, GenericPlayer player)
     {
-        Spell spell = GetSpell(spellName, player);
+        Spell spell = CreateSpell(spellName, player);
 
+        player.Spells.Add(spellName, spell);
         player.SpellsCooldown[spellName] = spell.Cooldown;
-
-        Spells.Add(spellName, spell);
     }
 
-    private Spell GetSpell(string spellName, GenericPlayer player)
+    private Spell CreateSpell(string spellName, GenericPlayer player)
     {
         foreach (var spellInfo in SpellInfoReader.SpellsInfo)
         {

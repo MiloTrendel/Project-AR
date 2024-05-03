@@ -13,7 +13,6 @@ public class GenericParticule
     {
         if (ParticuleGO == null)
         {
-            GenericPlayer player = GameStateContext.Player1;
             Vector3 partSpawnPosition;
             if (player.Particules.Count == 0)
                 partSpawnPosition = player.ParticuleSpawn.position + ((Vector3)Random.insideUnitCircle.normalized) * 100;
