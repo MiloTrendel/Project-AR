@@ -1,27 +1,30 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class GMShow : GMBaseState
+public class GMPause : GMBaseState
 {
-    public GMShow(GameStateManager.EGameStates key) : base(key)
+    private GameStateManager GSManager;
+    public GMPause(GameStateManager.EGameStates key, GameStateManager GSManager) : base(key)
     {
+        this.GSManager = GSManager;
     }
 
     public override void EnterState()
     {
         if (isDebugging)
-            Debug.Log("Enter Show");
+            Debug.Log("Enter Pause");
+
+        foreach (GameObject go in GSManager.Pause)
+        {
+            go.SetActive(true);
+        }
     }
 
     public override void UpdateState()
     {
         if (isDebugging)
-            Debug.Log("Update Show");
-        GameStateContext.Player1.UpdateGenericPlayer();
-        GameStateContext.Player2.UpdateGenericPlayer();
+            Debug.Log("Update Pause");
     }
-    
+
     public override GameStateManager.EGameStates GetNextState()
     {
         return NextStateKey;
@@ -29,8 +32,13 @@ public class GMShow : GMBaseState
 
     public override void ExitState()
     {
+        foreach (GameObject go in GSManager.Pause)
+        {
+            go.SetActive(false);
+        }
+
         if (isDebugging)
-            Debug.Log("Exit Show");
+            Debug.Log("Exit Pause");
         NextStateKey = StateKey;
     }
 

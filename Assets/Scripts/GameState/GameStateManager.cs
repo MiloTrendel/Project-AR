@@ -1,24 +1,27 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameStateManager : StateManager<GameStateManager.EGameStates>
 {
     private static bool isDebugging = false;
 
-    public GameObject ParticulePrebaf;
-
     [SerializeField] private Transform ParticuleSpawn1;
     [SerializeField] private Transform ParticuleSpawn2;
+
+    public List<GameObject> MainMenu = new();
+    public List<GameObject> Game = new();
+
+    public List<GameObject> Inventory = new();
+    public List<GameObject> Pause = new();
 
     public enum EGameStates
     {
         MainMenu,
-        Map,
-        Show,
+        Game,
 
         Inventory,
-        Walk,
-        StartMenu,
-        ShowAR
+        Pause
     }
 
 
@@ -36,19 +39,24 @@ public class GameStateManager : StateManager<GameStateManager.EGameStates>
         InitializeStates();
 
         CurrentState = States[EGameStates.MainMenu];
+
+        foreach (List<GameObject> list in new List<List<GameObject>>() { MainMenu, Game } )
+        {
+            foreach (GameObject item in list)
+            {
+                item.SetActive(false);
+            }
+        }
     }
 
     private void InitializeStates()
     {
         States = new()
         {
-            { EGameStates.MainMenu, new GMMainMenu(EGameStates.MainMenu) },
-            { EGameStates.Map, new GMMap(EGameStates.Map) },
-            { EGameStates.Show, new GMShow(EGameStates.Show) },
-            { EGameStates.Inventory, new GMInventory(EGameStates.Inventory) },
-            { EGameStates.Walk, new GMWalk(EGameStates.Walk) },
-            { EGameStates.StartMenu, new GMStartMenu(EGameStates.StartMenu) },
-            { EGameStates.ShowAR, new GMShowAR(EGameStates.ShowAR) }
+            { EGameStates.MainMenu, new GMMainMenu(EGameStates.MainMenu, this) },
+            { EGameStates.Game, new GMGame(EGameStates.Game, this) },
+            { EGameStates.Inventory, new GMInventory(EGameStates.Inventory, this) },
+            { EGameStates.Pause, new GMPause(EGameStates.Pause, this) }
         };
     }
 
@@ -87,6 +95,15 @@ public class GameStateManager : StateManager<GameStateManager.EGameStates>
         ((GMBaseState)CurrentState).DebugNextStateIterate();
     }
 
+    public void SetState(string state)
+    {
+        EGameStates nextState;
+        if (!Enum.TryParse<EGameStates>(state, out nextState))
+            return;
+
+        ((GMBaseState)CurrentState).SetState(nextState);
+    }
+
     public void ToggleDebug()
     {
         if (!isDebugging)
@@ -114,4 +131,8 @@ public abstract class GMBaseState : BaseState<GameStateManager.EGameStates>
         NextStateKey = key;
     }
     public abstract void DebugNextStateIterate();
+    public void SetState(GameStateManager.EGameStates key)
+    {
+        NextStateKey = key;
+    }
 }
