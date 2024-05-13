@@ -139,7 +139,8 @@ public abstract class GenericPlayer
 
         public override void Update()
         {
-            CurrentPlayer.Mana += CurrentPlayer.ManaDelta;
+            CurrentPlayer.Mana += CurrentPlayer.ManaDelta / 10;
+            CurrentPlayer.Fame += CurrentPlayer.FameDelta / 10;
         }
     }
 
@@ -151,6 +152,7 @@ public abstract class GenericPlayer
 
         public override void Update()
         {
+            CurrentPlayer.Mana += CurrentPlayer.ManaDelta;
         }
     }
 
@@ -162,6 +164,13 @@ public abstract class GenericPlayer
 
         public override void Update()
         {
+            float delta = CurrentPlayer.FameDelta;
+            foreach (var part in CurrentPlayer.Particules)
+            {
+                delta *= part.Force;
+            }
+
+            CurrentPlayer.Fame += delta;
         }
     }
 
