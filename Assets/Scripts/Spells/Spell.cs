@@ -54,8 +54,7 @@ public class Spawn : Spell
         if (!base.Cast())
             return false;
 
-        GenericParticule newParticule = new(ParticulePrefab);
-        newParticule.player = player;
+        GenericParticule newParticule = new(ParticulePrefab, player);
         player.AddParticule(newParticule);
         return true;
     }
@@ -83,7 +82,7 @@ public class Tornado : Spell
         {
             foreach (GenericParticule part in player.Particules)
             {
-                part.ParticuleGO.transform.RotateAround(ParticuleSpawn.transform.position, part.ParticuleGO.transform.forward, 1);
+                part.ParticuleGO.transform.RotateAround(ParticuleSpawn.transform.position, part.ParticuleGO.transform.up, 1);
             }
             loop++;
 

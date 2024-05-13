@@ -9,16 +9,16 @@ public class GenericParticule
 
     public GenericPlayer player { get; set; }
 
-    public GenericParticule(GameObject ParticulePrefab)
+    public GenericParticule(GameObject ParticulePrefab, GenericPlayer player)
     {
+        this.player = player;
         if (ParticuleGO == null)
         {
-            GenericPlayer player = GameStateContext.Player1;
             Vector3 partSpawnPosition;
             if (player.Particules.Count == 0)
-                partSpawnPosition = player.ParticuleSpawn.position + ((Vector3)Random.insideUnitCircle.normalized) * 100;
+                partSpawnPosition = player.ParticuleSpawn.position + ((Vector3)Random.insideUnitCircle.normalized);
             else
-                partSpawnPosition = player.ParticuleSpawn.position + ((Vector3)Random.insideUnitCircle.normalized) * 100;
+                partSpawnPosition = player.ParticuleSpawn.position + ((Vector3)Random.insideUnitCircle.normalized);
 
             ParticuleGO = GameObject.Instantiate(ParticulePrefab, partSpawnPosition, Quaternion.identity, player.ParticuleSpawn);
         }

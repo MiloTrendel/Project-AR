@@ -1,9 +1,10 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public abstract class GenericPlayer
 {
-    public List<Spell> Spells { get; protected set; } = new();
+    public Dictionary<string, Spell> Spells { get; set; } = new();
     public Dictionary<string, float> SpellsCooldown { get; set; } = new();
     public int Level { get; protected set; } = 0;
     public int Score { get; protected set; } = 0;
@@ -59,7 +60,7 @@ public abstract class GenericPlayer
         CurrentState.Update();
         ClampStats();
 
-        foreach (GenericParticule particule in Particules)
+        foreach (GenericParticule particule in Particules.ToList())
         {
             particule.LifeTime -= Time.deltaTime;
             if (particule.LifeTime < 0)
